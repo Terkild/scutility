@@ -13,6 +13,9 @@ seurat_annotate_SingleR(
   ...
 )
 }
+\value{
+Seurat object
+}
 \description{
 Run Annotate_SingleR on Seurat object
 }

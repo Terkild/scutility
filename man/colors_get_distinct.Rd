@@ -6,6 +6,9 @@
 \usage{
 colors_get_distinct()
 }
+\value{
+vector of colors
+}
 \description{
 Could be improved my manual curation.
 }

@@ -1,6 +1,8 @@
 #' Calculate barcode rank
 #'
 #' @return sorted vector of colnames (barcodes)
+#' @importFrom Matrix colSums
+#' @export
 barcode_rank <- function(data){
   data.colsum <- Matrix::colSums(data)
   data.rank <- names(data.colsum)[order(data.colsum, decreasing=TRUE)]
@@ -12,6 +14,8 @@ barcode_rank <- function(data){
 #' matrix, set its values to 0 to allow incorporation into a common object
 #'
 #' @return A subsetted sparse Matrix
+#' @importFrom Matrix Matrix cbind2
+#' @export
 subset_matrix <- function(data, barcodes, includeAll=TRUE, na.value=0){
   cols <- intersect(colnames(data),barcodes)
   cols.diff <- setdiff(barcodes,colnames(data))
@@ -30,7 +34,10 @@ subset_matrix <- function(data, barcodes, includeAll=TRUE, na.value=0){
   return(newmatrix[,barcodes])
 }
 
-
+#' Translate ENSG annotation to gene symbol
+#'
+#' @return Count Matrix with translated rownames
+#' @export
 translate_ensg_to_symbol <- function(raw_mtx, t2g.file){
   # LIBRARY SHOULD NOT BE LOADED INSIDE FUNCTION
   library("Matrix")

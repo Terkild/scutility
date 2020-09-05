@@ -12,6 +12,9 @@ modalities_load_cellranger_count(
   adt.listname = "Antibody Capture"
 )
 }
+\value{
+list of modality count matrices
+}
 \description{
 Load Cell Ranger data and divide by modality
 }

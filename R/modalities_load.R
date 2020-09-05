@@ -1,6 +1,9 @@
 #' Load Cell Ranger data and divide by modality
 #'
+#' @return list of modality count matrices
+#' @importFrom Seurat Read10X
 #' @export
+
 modalities_load_cellranger_count <- function(path, modalities=c("RNA","ADT","HTO"), hto.pattern="^hto", gex.listname="Gene Expression", adt.listname="Antibody Capture"){
   data <- Seurat::Read10X(data.dir=path)
 
@@ -21,7 +24,9 @@ modalities_load_cellranger_count <- function(path, modalities=c("RNA","ADT","HTO
 
 #' Load Kallisto data by modality
 #'
+#' @return list of modality count matrices
 #' @export
+
 modalities_load_kallisto <- function(paths, modalities=c("GEX","ADT","HTO")){
 
   modality <- list()
@@ -35,6 +40,8 @@ modalities_load_kallisto <- function(paths, modalities=c("GEX","ADT","HTO")){
 
 #' Load and reformat kallisto output for loading
 #'
+#' @return matrix containing kallisto counts
+#' @export
 read_kallisto_data <- function(path, name="cells_x_genes"){
   library("Matrix")
   ## Load mtx and transpose it

@@ -6,6 +6,9 @@
 \usage{
 read_kallisto_data(path, name = "cells_x_genes")
 }
+\value{
+matrix containing kallisto counts
+}
 \description{
 Load and reformat kallisto output for loading
 }

@@ -6,6 +6,9 @@
 \usage{
 modalities_load_kallisto(paths, modalities = c("GEX", "ADT", "HTO"))
 }
+\value{
+list of modality count matrices
+}
 \description{
 Load Kallisto data by modality
 }

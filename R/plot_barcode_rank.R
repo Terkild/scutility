@@ -1,4 +1,7 @@
 #' Barcode-Rank plot
+#'
+#' @return ggplot object
+#' @export
 
 plot_barcode_rank <- function(data, lower=10, show.inflection=TRUE, show.knee=FALSE){
   library("ggplot2")

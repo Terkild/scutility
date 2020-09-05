@@ -6,6 +6,9 @@
 \usage{
 plot_barcode_rank(data, lower = 10, show.inflection = TRUE, show.knee = FALSE)
 }
+\value{
+ggplot object
+}
 \description{
 Barcode-Rank plot
 }
