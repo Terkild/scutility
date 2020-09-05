@@ -5,8 +5,6 @@
 #' @param labels_column	name of labels column in the reference dataset to be used (labels.main or labels.fine if using celldex reference)
 #'
 #' @return	data.frame containing labels for each cell
-#' @importFrom SingleR SingleR
-#' @importFrom celldex MonacoImmuneData NovershternHematopoieticData DatabaseImmuneCellExpressionData BlueprintEncodeData HumanPrimaryCellAtlasData
 #' @export
 
 annotate_SingleR <- function(data, reference="MonacoImmuneData", labels_column="label.fine"){
