@@ -1,5 +1,6 @@
 #' Load Cell Ranger data and divide by modality
 #'
+#' @export
 modalities_load_cellranger_count <- function(path, modalities=c("RNA","ADT","HTO"), hto.pattern="^hto", gex.listname="Gene Expression", adt.listname="Antibody Capture"){
   data <- Seurat::Read10X(data.dir=path)
 
@@ -20,6 +21,7 @@ modalities_load_cellranger_count <- function(path, modalities=c("RNA","ADT","HTO
 
 #' Load Kallisto data by modality
 #'
+#' @export
 modalities_load_kallisto <- function(paths, modalities=c("GEX","ADT","HTO")){
 
   modality <- list()

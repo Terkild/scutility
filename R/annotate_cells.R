@@ -5,7 +5,7 @@
 #' @param labels_column	name of labels column in the reference dataset to be used (labels.main or labels.fine if using celldex reference)
 #'
 #' @return	data.frame containing labels for each cell
-
+#' @export
 annotate_SingleR <- function(data, reference="MonacoImmuneData", labels_column="label.fine"){
   #BiocManager::install(c("celldex", "SingleR", "scRNAseq"))
   ## SingleR manual: https://bioconductor.org/packages/devel/bioc/vignettes/SingleR/inst/doc/SingleR.html
@@ -52,6 +52,8 @@ annotate_SingleR <- function(data, reference="MonacoImmuneData", labels_column="
   return(labels)
 }
 
+#' Run Annotate_SingleR on Seurat object
+#' @export
 seurat_annotate_SingleR <- function(object, assay="RNA", slot="data", metadata_column="SingleR", annotation_column="pruned.labels", ...){
   data = Seurat::GetAssayData(object, assay=assay, slot=slot)
 
