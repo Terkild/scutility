@@ -30,6 +30,8 @@ seurat_plot_connected_barplot <- function(object, group.by="ident", split.by, ..
 plot_connected_barplot <- function(population, group, value="percent", order=FALSE, colors=c()){
   getData <- data.frame(group=group, population=population)
 
+  if(class(group) != "factor") getData$group <- as.factor(getData$group)
+
   plotData <- getData %>%
     group_by(group) %>%
     mutate(groupCount=n()) %>%
@@ -82,6 +84,11 @@ plot_connected_barplot <- function(population, group, value="percent", order=FAL
     #labs(y="% of PBMC", x="Days post onset") +
     guides(fill=F) +
     scale_y_continuous(expand=c(0,0,0.05,0))
+
+  if(label == "last"){
+    labelData <- plotData[plotData$group == last(levels(plotData$group)),]
+    plot <- plot + ggrepel::geom_text_repel(data=labelData, aes(label=population))
+  }
 
   return(plot)
 }
