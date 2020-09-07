@@ -4,7 +4,15 @@
 \alias{seurat_plot_connected_barplot}
 \title{Plot connected barplot from seurat object}
 \usage{
-seurat_plot_connected_barplot(object, group.by = "ident", split.by, ...)
+seurat_plot_connected_barplot(
+  object,
+  group.by = "ident",
+  split.by,
+  wrap.by = NULL,
+  combine = TRUE,
+  wrap_add = 1.5,
+  ...
+)
 }
 \arguments{
 \item{object}{Seurat object}
@@ -12,9 +20,15 @@ seurat_plot_connected_barplot(object, group.by = "ident", split.by, ...)
 \item{group.by}{Meta data column containing population/cluster assignment (y-axis)}
 
 \item{split.by}{Meta data column containing group or sample assignment (x-axis)}
+
+\item{wrap.by}{Meta data column to split into multiple independent plots (i.e. patient or tissue information)}
+
+\item{combine}{Boolean of whether multiple plots (when wrap.by is set) should be combined into a single plot (using cowplot)}
+
+\item{wrap_add}{Integer of how much width should be allocated to y-axis text relative to the with of a bar (for combining plots)}
 }
 \value{
-ggplot object
+ggplot object or list of ggplot objects
 }
 \description{
 Plot connected barplot from seurat object

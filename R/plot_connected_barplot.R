@@ -3,16 +3,40 @@
 #' @param object Seurat object
 #' @param group.by Meta data column containing population/cluster assignment (y-axis)
 #' @param split.by Meta data column containing group or sample assignment (x-axis)
+#' @param wrap.by Meta data column to split into multiple independent plots (i.e. patient or tissue information)
+#' @param combine Boolean of whether multiple plots (when wrap.by is set) should be combined into a single plot (using cowplot)
+#' @param wrap_add  Integer of how much width should be allocated to y-axis text relative to the with of a bar (for combining plots)
 #'
-#' @returns ggplot object
+#' @returns ggplot object or list of ggplot objects
 #' @importFrom Seurat FetchData
 #' @export
 
-seurat_plot_connected_barplot <- function(object, group.by="ident", split.by, ...){
-  getData <- Seurat::FetchData(object, vars=c(group.by, split.by))
+seurat_plot_connected_barplot <- function(object, group.by="ident", split.by, wrap.by=NULL, combine=TRUE, wrap_add=1.5, ...){
+  getData <- Seurat::FetchData(object, vars=c(group.by, split.by, wrap.by))
   colnames(getData)[1:2] <- c("group.by","split.by")
 
-  plot_connected_barplot(population=getData$group.by, group=getData$split.by, ...)
+  if(!is.null(wrap.by)){
+    colnames(getData)[3] <- "wrap.by"
+
+    dataList <- split(getData, getData$wrap.by)
+    plots <- lapply(dataList, function(x) plot_connected_barplot(population=x$group.by, group=x$split.by, ...))
+
+    if(combine == TRUE){
+      wrapSize <- getData %>%
+        group_by(wrap.by, split.by) %>%
+        summarize(splitSize=n()) %>%
+        group_by(wrap.by) %>%
+        summarize(wrapSize=n())
+
+      plots <- cowplot::plot_grid(plotlist=plots[wrapSize$wrap.by],
+                         align="hv", axis="tblr", nrow=1,
+                         rel_widths=(wrapSize$wrapSize+wrap_add))
+    }
+  } else {
+    plots <- plot_connected_barplot(population=getData$group.by, group=getData$split.by, ...)
+  }
+
+  return(plots)
 }
 
 #' Plot connected barplot

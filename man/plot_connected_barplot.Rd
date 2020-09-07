@@ -9,7 +9,8 @@ plot_connected_barplot(
   group,
   value = "percent",
   order = FALSE,
-  colors = c()
+  colors = c(),
+  label = FALSE
 )
 }
 \arguments{
