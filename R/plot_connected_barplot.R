@@ -27,7 +27,7 @@ seurat_plot_connected_barplot <- function(object, group.by="ident", split.by, ..
 #' @import ggplot2
 #' @export
 
-plot_connected_barplot <- function(population, group, value="percent", order=FALSE, colors=c()){
+plot_connected_barplot <- function(population, group, value="percent", order=FALSE, colors=c(), label=FALSE){
   getData <- data.frame(group=group, population=population)
 
   if(class(group) != "factor") getData$group <- as.factor(getData$group)
