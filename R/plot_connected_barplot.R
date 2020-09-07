@@ -87,7 +87,7 @@ plot_connected_barplot <- function(population, group, value="percent", order=FAL
 
   if(label == "last"){
     labelData <- plotData[plotData$group == last(levels(plotData$group)),]
-    plot <- plot + ggrepel::geom_text_repel(data=labelData, aes(label=population))
+    plot <- plot + ggrepel::geom_text_repel(data=labelData, stat = "stratum", aes(label=population))
   }
 
   return(plot)
