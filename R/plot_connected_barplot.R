@@ -112,7 +112,7 @@ plot_connected_barplot <- function(population, group, y_value="percent", order=F
     labs(y=y_label) +
     guides(fill=F) +
     scale_y_continuous(expand=c(0,0,0.05,0)) +
-    scale_x_continuous(expand=c(0.02,0,0.02,0)) +
+    scale_x_discrete(expand=c(0.02,0,0.02,0)) +
     ggplot2::theme(axis.title.x=element_blank())
 
   if(label == "last"){
