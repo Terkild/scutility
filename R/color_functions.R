@@ -1,8 +1,4 @@
 ##color_functions.R
-
-
-clusters <- FetchData(object, vars=c("celltype", "ident"))
-
 #' Expand color vector for subclusters
 #'
 #' Make a vector of colors for a vector of subclusters grouped by their
