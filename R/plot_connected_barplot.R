@@ -51,7 +51,7 @@ seurat_plot_connected_barplot <- function(object, group.by="ident", split.by, wr
 #' @import ggplot2
 #' @export
 
-plot_connected_barplot <- function(population, group, value="percent", order=FALSE, colors=c(), label=FALSE){
+plot_connected_barplot <- function(population, group, y_value="percent", order=FALSE, colors=c(), label=FALSE){
   getData <- data.frame(group=group, population=population)
 
   if(class(group) != "factor") getData$group <- as.factor(getData$group)
@@ -91,13 +91,17 @@ plot_connected_barplot <- function(population, group, value="percent", order=FAL
            group=group)
 
 
-  if(value == "percent"){
+  if(y_value == "percent"){
     plotData <- plotData %>%
       mutate(pct=populationCount/groupCount*100) %>%
       mutate(value=pct)
+
+    y_label <- "%"
   } else {
     plotData <- plotData %>%
       mutate(value=populationCount)
+
+    y_label <- "Cells"
   }
 
 
@@ -105,9 +109,11 @@ plot_connected_barplot <- function(population, group, value="percent", order=FAL
     ggalluvial::geom_alluvium(alpha=0.6, color=alpha("grey",0.5), width=0.4) +
     ggalluvial::geom_stratum(color=alpha("black",0.5), width=0.4) +
     scale_fill_manual(values=colors) +
-    #labs(y="% of PBMC", x="Days post onset") +
+    labs(y=y_label) +
     guides(fill=F) +
-    scale_y_continuous(expand=c(0,0,0.05,0))
+    scale_y_continuous(expand=c(0,0,0.05,0)) +
+    scale_x_continuous(expand=c(0.02,0,0.02,0)) +
+    ggplot2::theme(axis.title.x=element_blank())
 
   if(label == "last"){
     labelData <- plotData[plotData$group == last(levels(plotData$group)),]
