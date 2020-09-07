@@ -10,7 +10,7 @@
 
 seurat_plot_connected_barplot <- function(object, group.by="ident", split.by, ...){
   getData <- Seurat::FetchData(object, vars=c(group.by, split.by))
-  colnames(getData)[1:2] <- c("split.by", "group.by")
+  colnames(getData)[1:2] <- c("group.by","split.by")
 
   plot_connected_barplot(population=getData$group.by, group=getData$split.by, ...)
 }

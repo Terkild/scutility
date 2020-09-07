@@ -1,4 +1,3 @@
-##color_functions.R
 #' Expand color vector for subclusters
 #'
 #' Make a vector of colors for a vector of subclusters grouped by their
@@ -25,6 +24,3 @@ color_subcluster <- function(subcluster, cluster, cluster_colors=c()){
 
   return(colors.clustertype)
 }
-
-## Make subclusters within each celltype same color with different brightness
-

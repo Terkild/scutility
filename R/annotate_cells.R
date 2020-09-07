@@ -76,7 +76,6 @@ seurat_annotate_SingleR <- function(object, assay="RNA", slot="data", metadata_c
 #' @param group MonacoImmuneData$label.fine annotation
 #'
 #' @export
-
 annotate_hierarchy_MonacoImmuneData <- function(group){
   celltype <- group
   celltype[grep("(T cells)|(Th[0-9]+)|(T regulatory)|(MAIT)",celltype)] <- "T"
