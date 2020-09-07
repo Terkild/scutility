@@ -19,7 +19,7 @@ seurat_plot_connected_barplot <- function(object, group.by="ident", split.by, wr
     colnames(getData)[3] <- "wrap.by"
 
     dataList <- split(getData, getData$wrap.by)
-    plots <- lapply(dataList, function(x) plot_connected_barplot(population=x$group.by, group=x$split.by, ...))
+    plots <- lapply(dataList, function(x) plot_connected_barplot(population=x$group.by, group=x$split.by, ...) + ggtitle(x$wrap.by[1]))
 
     if(combine == TRUE){
       wrapSize <- getData %>%
@@ -111,8 +111,8 @@ plot_connected_barplot <- function(population, group, y_value="percent", order=F
     scale_fill_manual(values=colors) +
     labs(y=y_label) +
     guides(fill=F) +
-    scale_y_continuous(expand=c(0,0,0.05,0)) +
-    scale_x_discrete(expand=c(0.02,0,0.02,0)) +
+    scale_y_continuous(expand=c(0,0,0.01,0)) +
+    scale_x_discrete(expand=c(0,0.05,0,0.05)) +
     ggplot2::theme(axis.title.x=element_blank())
 
   if(label == "last"){
