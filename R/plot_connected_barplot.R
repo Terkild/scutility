@@ -1,18 +1,18 @@
 #' Plot connected barplot from seurat object
 #'
 #' @param object Seurat object
-#' @param population Meta data column containing population/cluster assignment (y-axis)
-#' @param group Meta data column containing group or sample assignment (x-axis)
+#' @param group.by Meta data column containing population/cluster assignment (y-axis)
+#' @param split.by Meta data column containing group or sample assignment (x-axis)
 #'
 #' @returns ggplot object
 #' @importFrom Seurat FetchData
 #' @export
 
-seurat_plot_connected_barplot <- function(object, population="ident", group, ...){
-  getData <- Seurat::FetchData(object, vars=c(group, population))
-  colnames(getData)[1:2] <- c("group", "population")
+seurat_plot_connected_barplot <- function(object, group.by="ident", split.by, ...){
+  getData <- Seurat::FetchData(object, vars=c(group.by, split.by))
+  colnames(getData)[1:2] <- c("split.by", "group.by")
 
-  plot_connected_barplot(population=getData$population, group=getData$group, ...)
+  plot_connected_barplot(population=getData$group.by, group=getData$split.by, ...)
 }
 
 #' Plot connected barplot

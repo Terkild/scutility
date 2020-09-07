@@ -69,3 +69,57 @@ seurat_annotate_SingleR <- function(object, assay="RNA", slot="data", metadata_c
 
   return(object)
 }
+
+#' Make hierarchical named groups from MonacoImmuneData annotation
+#'
+#' A bit of a hacky approach for primarily for internal use.
+#' @param group MonacoImmuneData$label.fine annotation
+#'
+#' @export
+
+annotate_hierarchy_MonacoImmuneData <- function(group){
+  celltype <- group
+  celltype[grep("(T cells)|(Th[0-9]+)|(T regulatory)|(MAIT)",celltype)] <- "T"
+  celltype[grep("(B cells)|(Plasmablasts)",celltype)] <- "B"
+  celltype[grep("(monocytes)",celltype)] <- "MO"
+  celltype[grep("(neutrophils)|(basophils)",celltype)] <- "Gr"
+  celltype[grep("(Natural killer cells)",celltype)] <- "NK"
+  celltype[grep("([dD]endritic cells)",celltype)] <- "DC"
+  celltype[grep("(Progenitor)",celltype)] <- "SC"
+
+  celltype.2 <- NA
+  celltype.2[grep("(CD8)",group)] <- "CD8"
+  celltype.2[grep("(CD4)|(Th[0-9]+)|(Follicular)|(regulatory)",group)] <- "CD4"
+  celltype.2[grep("(gd T)",group)] <- "gdT"
+  celltype.2[grep("(MAIT)",group)] <- "MAIT"
+
+  celltype.3 <- NA
+  celltype.3[celltype == "T"] <- gsub("(.*) (CD[48])| (gd) T cells","\\1",group[celltype == "T"])
+  celltype.3[celltype == "T"] <- gsub("(.*) T cells","\\1",celltype.3[celltype == "T"])
+  celltype.3[celltype == "T"] <- gsub(" cells","",celltype.3[celltype == "T"])
+  celltype.3[celltype == "T"] <- gsub("T regulatory","Treg",celltype.3[celltype == "T"])
+  celltype.3[celltype == "T"] <- gsub("Central memory","CM",celltype.3[celltype == "T"])
+  celltype.3[celltype == "T"] <- gsub("Effector memory","EM",celltype.3[celltype == "T"])
+  celltype.3[celltype == "T"] <- gsub("Follicular helper","Tfh",celltype.3[celltype == "T"])
+  celltype.3[celltype == "T"] <- gsub("Terminal effector","Eff",celltype.3[celltype == "T"])
+  celltype.3[celltype == "T"] <- gsub("MAIT",NA,celltype.3[celltype == "T"])
+  celltype.3[celltype == "B"] <- gsub("(.*)(memory|Naive|Exhausted) B cells","\\2",group[celltype == "B"])
+  celltype.3[grep("Non-switched memory B cells",group)] <- "NSM"
+  celltype.3[grep("Switched memory B cells",group)] <- "SM"
+
+  celltype.3[grep("(neutrophils)",group)] <- "Neutrophil"
+  celltype.3[grep("(basophils)",group)] <- "Basophil"
+  celltype.3[celltype == "MO"] <- gsub("(.*) monocytes","\\1",group[celltype == "MO"])
+  celltype.3[celltype == "DC"] <- gsub("(.*) dendritic cells","\\1",group[celltype == "DC"])
+
+
+  cell.3 <- paste(celltype, celltype.2, celltype.3, sep=".")
+  cell.3 <- gsub(".NA","",cell.3)
+  cell.3[celltype == "Gr"] <- "Unknown"
+
+  cell.2 <- paste(celltype, celltype.2, sep=".")
+  cell.2 <- gsub(".NA","",cell.2)
+  cell.2[celltype == "Gr"] <- "Unknown"
+
+  return(list(celltype, cell.2, cell.3))
+}
