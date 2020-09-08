@@ -6,6 +6,9 @@
 #' @param subcluster  vector of subcluster assignments (can be duplicated across cell assignments)
 #' @param cluster vector of cluster assignment for each subcluster (vector of same length as subcluster)
 #' @param cluster_colors (named) vector of colors for each subcluster
+#'
+#' @return vector of colors
+#' @export
 
 color_subcluster <- function(subcluster, cluster, cluster_colors=c()){
   clusters <- data.frame(subcluster=as.character(subcluster), cluster=as.character(cluster)) %>%

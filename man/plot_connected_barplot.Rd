@@ -7,7 +7,7 @@
 plot_connected_barplot(
   population,
   group,
-  value = "percent",
+  y_value = "percent",
   order = FALSE,
   colors = c(),
   label = FALSE
@@ -18,9 +18,9 @@ plot_connected_barplot(
 
 \item{group}{vector containing group or sample assignment (x-axis)}
 
-\item{value}{what statistic to plot ("percent" or "count")}
-
 \item{order}{should populations be ordered by total count (across groups)}
+
+\item{value}{what statistic to plot ("percent" or "count")}
 
 \item{color}{(named) vector of colors for populations}
 }

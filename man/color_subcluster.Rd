@@ -13,6 +13,9 @@ color_subcluster(subcluster, cluster, cluster_colors = c())
 
 \item{cluster_colors}{(named) vector of colors for each subcluster}
 }
+\value{
+vector of colors
+}
 \description{
 Make a vector of colors for a vector of subclusters grouped by their
 assignment to a cluster
