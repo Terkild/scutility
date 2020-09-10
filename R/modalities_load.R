@@ -4,8 +4,8 @@
 #' @importFrom Seurat Read10X
 #' @export
 
-modalities_load_cellranger_count <- function(paths, modalities=c("RNA","ADT","HTO"), hto.pattern="^hto", gex.listname="Gene Expression", adt.listname="Antibody Capture"){
-  data <- Seurat::Read10X(data.dir=paths)
+modalities_load_cellranger_count <- function(path, modalities=c("RNA","ADT","HTO"), folder="raw_feature_bc_matrix", hto.pattern="^hto", gex.listname="Gene Expression", adt.listname="Antibody Capture"){
+  data <- Seurat::Read10X(data.dir=file.path(path, folder))
 
   hto.rows <- grep(hto.pattern,rownames(data[[adt.listname]]))
 
@@ -42,10 +42,10 @@ modalities_load_kallisto <- function(paths, modalities=c("ADT","HTO"), barcode_s
 #' Load and reformat kallisto output for loading
 #'
 #' @return matrix containing kallisto counts
+#' @importFrom Matrix t readMM
 #' @export
 
 read_kallisto_data <- function(path, name="cells_x_genes"){
-  library("Matrix")
   ## Load mtx and transpose it
   res_mat <- as(Matrix::t(Matrix::readMM(file.path(path,paste0(name,".mtx")))), 'CsparseMatrix')
   ## Attach genes

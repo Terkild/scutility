@@ -2,6 +2,8 @@
 #'
 #' @return ggplot object
 #' @import ggplot2
+#' @importFrom DropletUtils barcodeRanks
+#' @importFrom tibble tibble
 #' @export
 
 plot_barcode_rank <- function(data, lower=10, show.inflection=TRUE, show.knee=FALSE){
@@ -9,13 +11,13 @@ plot_barcode_rank <- function(data, lower=10, show.inflection=TRUE, show.knee=FA
 
   bc_rank <- DropletUtils::barcodeRanks(data, lower=lower)
 
-  knee_plt <- tibble(rank = bc_rank[["rank"]],
+  knee_plt <- tibble::tibble(rank = bc_rank[["rank"]],
                      total = bc_rank[["total"]]) %>%
     distinct() %>%
     dplyr::filter(total > 0)
 
   meta <- S4Vectors::metadata(bc_rank)
-  annot <- tibble(inflection = meta[["inflection"]],
+  annot <- tibble::tibble(inflection = meta[["inflection"]],
                   rank_cutoff = max(bc_rank$rank[bc_rank$total > meta[["inflection"]]]),
                   knee = meta[["knee"]],
                   knee_cutoff = max(bc_rank$rank[bc_rank$total > meta[["knee"]]]))
