@@ -5,18 +5,22 @@
 #' @export
 
 modalities_load_cellranger_count <- function(path, modalities=c("RNA","ADT","HTO"), folder="raw_feature_bc_matrix", hto.pattern="^hto", gex.listname="Gene Expression", adt.listname="Antibody Capture"){
-  data <- Seurat::Read10X(data.dir=file.path(path, folder))
-
-  hto.rows <- grep(hto.pattern,rownames(data[[adt.listname]]))
+  data <- Seurat::Read10X(data.dir=file.path(path,folder))
 
   modality <- list()
 
   if("RNA" %in% modalities) modality[["RNA"]] <- data[[gex.listname]]
 
-  if("ADT" %in% modalities) modality[["ADT"]] <- data[[adt.listname]][-hto.rows,]
+  if(adt.listname %in% names(data)){
 
-  if("HTO" %in% modalities & length(hto.rows) > 0){
-    modality[["HTO"]] <- data[[adt.listname]][hto.rows,]
+    hto.rows <- grep(hto.pattern,rownames(data[[adt.listname]]))
+
+    if("ADT" %in% modalities) modality[["ADT"]] <- data[[adt.listname]][-hto.rows,]
+
+    if("HTO" %in% modalities & length(hto.rows) > 0){
+      modality[["HTO"]] <- data[[adt.listname]][hto.rows,]
+    }
+
   }
 
   return(modality)
