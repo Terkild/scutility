@@ -4,8 +4,8 @@
 #' @importFrom Seurat Read10X
 #' @export
 
-modalities_load_cellranger_count <- function(path, modalities=c("RNA","ADT","HTO"), hto.pattern="^hto", gex.listname="Gene Expression", adt.listname="Antibody Capture"){
-  data <- Seurat::Read10X(data.dir=path)
+modalities_load_cellranger_count <- function(paths, modalities=c("RNA","ADT","HTO"), hto.pattern="^hto", gex.listname="Gene Expression", adt.listname="Antibody Capture"){
+  data <- Seurat::Read10X(data.dir=paths)
 
   hto.rows <- grep(hto.pattern,rownames(data[[adt.listname]]))
 
@@ -27,12 +27,13 @@ modalities_load_cellranger_count <- function(path, modalities=c("RNA","ADT","HTO
 #' @return list of modality count matrices
 #' @export
 
-modalities_load_kallisto <- function(paths, modalities=c("GEX","ADT","HTO")){
+modalities_load_kallisto <- function(paths, modalities=c("ADT","HTO"), barcode_suffix="", folder="counts_unfiltered"){
 
   modality <- list()
 
   for(i in seq_along(paths)){
-    modality[[modalities[i]]] <- read_kallisto_data(paths[[i]])
+    modality[[modalities[i]]] <- read_kallisto_data(file.path(paths[[i]],folder), ...)
+    colnames(modality[[modalities[i]]]) <- paste0(colnames(modality[[modalities[i]]]), barcode_suffix)
   }
 
   return(modality)
@@ -42,6 +43,7 @@ modalities_load_kallisto <- function(paths, modalities=c("GEX","ADT","HTO")){
 #'
 #' @return matrix containing kallisto counts
 #' @export
+
 read_kallisto_data <- function(path, name="cells_x_genes"){
   library("Matrix")
   ## Load mtx and transpose it

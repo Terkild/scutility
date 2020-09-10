@@ -4,7 +4,12 @@
 \alias{modalities_load_kallisto}
 \title{Load Kallisto data by modality}
 \usage{
-modalities_load_kallisto(paths, modalities = c("GEX", "ADT", "HTO"))
+modalities_load_kallisto(
+  paths,
+  modalities = c("ADT", "HTO"),
+  barcode_suffix = "",
+  folder = "counts_unfiltered"
+)
 }
 \value{
 list of modality count matrices

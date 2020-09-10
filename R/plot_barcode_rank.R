@@ -1,10 +1,11 @@
 #' Barcode-Rank plot
 #'
 #' @return ggplot object
+#' @import ggplot2
 #' @export
 
 plot_barcode_rank <- function(data, lower=10, show.inflection=TRUE, show.knee=FALSE){
-  library("ggplot2")
+  require(ggplot2)
 
   bc_rank <- DropletUtils::barcodeRanks(data, lower=lower)
 

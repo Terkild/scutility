@@ -5,7 +5,7 @@
 \title{Load Cell Ranger data and divide by modality}
 \usage{
 modalities_load_cellranger_count(
-  path,
+  paths,
   modalities = c("RNA", "ADT", "HTO"),
   hto.pattern = "^hto",
   gex.listname = "Gene Expression",
