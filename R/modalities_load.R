@@ -1,5 +1,12 @@
 #' Load Cell Ranger data and divide by modality
 #'
+#' @param path  Path to cellranger output (outs) folder
+#' @param modalities  Vector of modalities to be extracted from Cell Ranger output
+#' @param folder  Folder containing count matrix (raw_feature_bc_matrix or filtered_feature_bc_matrix)
+#' @param hto.pattern Pattern in feature name distinguishing hastag (HTOs) from other antibody derived tags (ADTs)
+#' @param gex.listname  Name of dataframe containing gene expression counts (after Seurat::Read10X)
+#' @param adt.listname  Name of dataframe containing ADT counts (after Seurat::Read10X)
+#'
 #' @return list of modality count matrices
 #' @importFrom Seurat Read10X
 #' @export
@@ -9,9 +16,9 @@ modalities_load_cellranger_count <- function(path, modalities=c("RNA","ADT","HTO
 
   modality <- list()
 
-  if("RNA" %in% modalities) modality[["RNA"]] <- data[[gex.listname]]
+  if("RNA" %in% modalities) modality[["RNA"]] <- ifelse(is.list(data) & gex.listname %in% names(data), data[[gex.listname]], data)
 
-  if(adt.listname %in% names(data)){
+  if(is.list(data) & adt.listname %in% names(data)){
 
     hto.rows <- grep(hto.pattern,rownames(data[[adt.listname]]))
 
@@ -27,6 +34,11 @@ modalities_load_cellranger_count <- function(path, modalities=c("RNA","ADT","HTO
 }
 
 #' Load Kallisto data by modality
+#'
+#' @param paths Paths to kallisto output folders
+#' @param modalities  Vector of modalities to be loaded from kallisto output
+#' @param barcode_suffix  Suffix added to the end of each cell barcode name (to make it compatible with Cell Ranger output)
+#' @param folder  Folder containing count matrix
 #'
 #' @return list of modality count matrices
 #' @export
@@ -44,6 +56,9 @@ modalities_load_kallisto <- function(paths, modalities=c("ADT","HTO"), barcode_s
 }
 
 #' Load and reformat kallisto output for loading
+#'
+#' @param path Path to kallisto output folder
+#' @param name  Name of count matrix files
 #'
 #' @return matrix containing kallisto counts
 #' @importFrom Matrix t readMM

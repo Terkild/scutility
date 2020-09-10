@@ -1,5 +1,10 @@
 #' Barcode-Rank plot
 #'
+#' @param data  Count matrix
+#' @param lower Lower threshold passed on to DropletUtils::barcodeRanks()
+#' @param show.inflection Plot line at inflection point?
+#' @param show.knee Plot line at knee point?
+#'
 #' @return ggplot object
 #' @import ggplot2
 #' @importFrom DropletUtils barcodeRanks
