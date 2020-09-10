@@ -16,17 +16,22 @@ modalities_load_cellranger_count <- function(path, modalities=c("RNA","ADT","HTO
 
   modality <- list()
 
-  if("RNA" %in% modalities) modality[["RNA"]] <- ifelse(is.list(data) & gex.listname %in% names(data), data[[gex.listname]], data)
+  if(is.list(data)){
+    if(adt.listname %in% names(data)){
+      hto.rows <- grep(hto.pattern,rownames(data[[adt.listname]]))
 
-  if(is.list(data) & adt.listname %in% names(data)){
+      if("ADT" %in% modalities) modality[["ADT"]] <- data[[adt.listname]][-hto.rows,]
 
-    hto.rows <- grep(hto.pattern,rownames(data[[adt.listname]]))
-
-    if("ADT" %in% modalities) modality[["ADT"]] <- data[[adt.listname]][-hto.rows,]
-
-    if("HTO" %in% modalities & length(hto.rows) > 0){
-      modality[["HTO"]] <- data[[adt.listname]][hto.rows,]
+      if("HTO" %in% modalities & length(hto.rows) > 0){
+        modality[["HTO"]] <- data[[adt.listname]][hto.rows,]
+      }
     }
+
+    if("RNA" %in% modalities & gex.listname %in% names(data)) modality[["RNA"]] <- data[[gex.listname]]
+
+  } else {
+
+    if("RNA" %in% modalities) modality[["RNA"]] <- data
 
   }
 
