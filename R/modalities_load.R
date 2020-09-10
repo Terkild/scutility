@@ -43,7 +43,7 @@ modalities_load_cellranger_count <- function(path, modalities=c("RNA","ADT","HTO
 #' @return list of modality count matrices
 #' @export
 
-modalities_load_kallisto <- function(paths, modalities=c("ADT","HTO"), barcode_suffix="", folder="counts_unfiltered"){
+modalities_load_kallisto <- function(paths, modalities=c("ADT","HTO"), barcode_suffix="", folder="counts_unfiltered", ...){
 
   modality <- list()
 
