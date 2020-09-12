@@ -11,7 +11,7 @@
 #' @importFrom Seurat FetchData
 #' @export
 
-seurat_plot_connected_barplot <- function(object, group.by="ident", split.by, wrap.by=NULL, combine=TRUE, wrap_add=1.5, ...){
+seurat_plot_connected_barplot <- function(object, group.by="ident", split.by, wrap.by=NULL, combine=TRUE, wrap_add=0.5, ...){
   getData <- Seurat::FetchData(object, vars=c(group.by, split.by, wrap.by))
   colnames(getData)[1:2] <- c("group.by","split.by")
 
@@ -111,8 +111,8 @@ plot_connected_barplot <- function(population, group, y_value="percent", order=F
     scale_fill_manual(values=colors) +
     labs(y=y_label) +
     guides(fill=F) +
-    scale_y_continuous(expand=c(0,0,0.01,0)) +
-    scale_x_discrete(expand=c(0,0.05,0,0.05)) +
+    scale_y_continuous(expand=c(0,0,0.0,0)) +
+    scale_x_discrete(expand=c(0,0,0,0)) +
     ggplot2::theme(axis.title.x=element_blank())
 
   if(label == "last"){
