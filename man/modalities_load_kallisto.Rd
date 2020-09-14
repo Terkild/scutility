@@ -8,8 +8,18 @@ modalities_load_kallisto(
   paths,
   modalities = c("ADT", "HTO"),
   barcode_suffix = "",
-  folder = "counts_unfiltered"
+  folder = "counts_unfiltered",
+  ...
 )
+}
+\arguments{
+\item{paths}{Paths to kallisto output folders}
+
+\item{modalities}{Vector of modalities to be loaded from kallisto output}
+
+\item{barcode_suffix}{Suffix added to the end of each cell barcode name (to make it compatible with Cell Ranger output)}
+
+\item{folder}{Folder containing count matrix}
 }
 \value{
 list of modality count matrices

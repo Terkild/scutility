@@ -2,6 +2,7 @@
 #'
 #' @import ggplot2
 #' @export
+
 ggplot_set_theme <- function(){
   theme_set(theme_bw() +
               theme(
@@ -20,6 +21,7 @@ ggplot_set_theme <- function(){
 #' @return vector of colors
 #' @importFrom RColorBrewer brewer.pal.info brewer.pal
 #' @export
+
 colors_get_distinct <- function(){
   qual_col_pals = RColorBrewer::brewer.pal.info[RColorBrewer::brewer.pal.info$category == 'qual',]
   col_vector = unlist(mapply(RColorBrewer::brewer.pal, qual_col_pals$maxcolors, rownames(qual_col_pals)))

@@ -10,7 +10,7 @@ seurat_plot_connected_barplot(
   split.by,
   wrap.by = NULL,
   combine = TRUE,
-  wrap_add = 1.5,
+  wrap_add = 0.5,
   ...
 )
 }

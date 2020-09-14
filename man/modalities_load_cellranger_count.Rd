@@ -13,6 +13,19 @@ modalities_load_cellranger_count(
   adt.listname = "Antibody Capture"
 )
 }
+\arguments{
+\item{path}{Path to cellranger output (outs) folder}
+
+\item{modalities}{Vector of modalities to be extracted from Cell Ranger output}
+
+\item{folder}{Folder containing count matrix (raw_feature_bc_matrix or filtered_feature_bc_matrix)}
+
+\item{hto.pattern}{Pattern in feature name distinguishing hastag (HTOs) from other antibody derived tags (ADTs)}
+
+\item{gex.listname}{Name of dataframe containing gene expression counts (after Seurat::Read10X)}
+
+\item{adt.listname}{Name of dataframe containing ADT counts (after Seurat::Read10X)}
+}
 \value{
 list of modality count matrices
 }

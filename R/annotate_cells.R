@@ -70,11 +70,31 @@ seurat_annotate_SingleR <- function(object, assay="RNA", slot="data", metadata_c
   return(object)
 }
 
+#' Make hierarchical named groups from SingleR annotation
+#'
+#' Only "MonacoImmuneData" supported at the moment.
+#'
+#' @param group label.fine annotation from SingleR
+#' @param reference	reference character string matching name of dataset to compare against (uses a selection from celldex package; default "MonacoImmuneData" covers most populations in PBMC). Alternatively, a custom SummarizedExperiment can be provided.
+#'
+#' @return list of hierarical cell type assignments
+#' @export
+
+annotate_hierarchy <- function(group, reference){
+  if(reference == "MonacoImmuneData"){
+    return(annotate_hierarchy_MonacoImmuneData(group))
+  } else {
+    error(paste0(reference," is not a supported reference."))
+  }
+}
+
+
 #' Make hierarchical named groups from MonacoImmuneData annotation
 #'
 #' A bit of a hacky approach for primarily for internal use.
 #' @param group MonacoImmuneData$label.fine annotation
 #'
+#' @return list of hierarical cell type assignments
 #' @export
 annotate_hierarchy_MonacoImmuneData <- function(group){
   celltype <- group

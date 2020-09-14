@@ -6,6 +6,15 @@
 \usage{
 plot_barcode_rank(data, lower = 10, show.inflection = TRUE, show.knee = FALSE)
 }
+\arguments{
+\item{data}{Count matrix}
+
+\item{lower}{Lower threshold passed on to DropletUtils::barcodeRanks()}
+
+\item{show.inflection}{Plot line at inflection point?}
+
+\item{show.knee}{Plot line at knee point?}
+}
 \value{
 ggplot object
 }

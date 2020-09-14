@@ -6,6 +6,11 @@
 \usage{
 read_kallisto_data(path, name = "cells_x_genes")
 }
+\arguments{
+\item{path}{Path to kallisto output folder}
+
+\item{name}{Name of count matrix files}
+}
 \value{
 matrix containing kallisto counts
 }

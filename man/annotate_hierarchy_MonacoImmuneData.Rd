@@ -9,6 +9,9 @@ annotate_hierarchy_MonacoImmuneData(group)
 \arguments{
 \item{group}{MonacoImmuneData$label.fine annotation}
 }
+\value{
+list of hierarical cell type assignments
+}
 \description{
 A bit of a hacky approach for primarily for internal use.
 }
