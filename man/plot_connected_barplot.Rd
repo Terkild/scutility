@@ -7,6 +7,8 @@
 plot_connected_barplot(
   population,
   group,
+  connected = TRUE,
+  bar_width = 0.4,
   y_value = "percent",
   order = FALSE,
   colors = c(),
@@ -18,11 +20,15 @@ plot_connected_barplot(
 
 \item{group}{vector containing group or sample assignment (x-axis)}
 
+\item{connected}{Should bars from same group be connected?}
+
+\item{bar_width}{Relative width of bars (integer between 0 and 1)}
+
+\item{y_value}{what statistic to plot ("percent" or "count")}
+
 \item{order}{should populations be ordered by total count (across groups)}
 
-\item{value}{what statistic to plot ("percent" or "count")}
-
-\item{color}{(named) vector of colors for populations}
+\item{colors}{(named) vector of colors for populations}
 }
 \value{
 ggplot object

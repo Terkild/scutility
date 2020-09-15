@@ -43,15 +43,17 @@ seurat_plot_connected_barplot <- function(object, group.by="ident", split.by, wr
 #'
 #' @param population  vector containing population/cluster assignment (y-axis)
 #' @param group vector containing group or sample assignment (x-axis)
-#' @param value what statistic to plot ("percent" or "count")
+#' @param connected Should bars from same group be connected?
+#' @param bar_width Relative width of bars (integer between 0 and 1)
+#' @param y_value what statistic to plot ("percent" or "count")
 #' @param order should populations be ordered by total count (across groups)
-#' @param color (named) vector of colors for populations
+#' @param colors (named) vector of colors for populations
 #'
 #' @returns ggplot object
 #' @import ggplot2
 #' @export
 
-plot_connected_barplot <- function(population, group, y_value="percent", order=FALSE, colors=c(), label=FALSE){
+plot_connected_barplot <- function(population, group, connected=TRUE, bar_width=0.4, y_value="percent", order=FALSE, colors=c(), label=FALSE){
   getData <- data.frame(group=group, population=population)
 
   if(class(group) != "factor") getData$group <- as.factor(getData$group)
@@ -106,14 +108,17 @@ plot_connected_barplot <- function(population, group, y_value="percent", order=F
 
 
   plot <- ggplot(plotData, aes(x=group, y=value, fill=population, alluvium=population, stratum=population)) +
-    ggalluvial::geom_alluvium(alpha=0.6, color=alpha("grey",0.5), width=0.4) +
-    ggalluvial::geom_stratum(color=alpha("black",0.5), width=0.4) +
+    ggalluvial::geom_alluvium(alpha=0.6, color=alpha("grey",0.5), width=bar_width) +
     scale_fill_manual(values=colors) +
     labs(y=y_label) +
     guides(fill=F) +
     scale_y_continuous(expand=c(0,0,0.0,0)) +
     scale_x_discrete(expand=c(0,0,0,0)) +
     ggplot2::theme(axis.title.x=element_blank())
+
+  if(connected == TRUE){
+    plot <- plot + ggalluvial::geom_stratum(color=alpha("black",0.5), width=bar_width)
+  }
 
   if(label == "last"){
     labelData <- plotData[plotData$group == last(levels(plotData$group)),]
