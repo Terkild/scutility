@@ -11,7 +11,7 @@
 #' @importFrom Seurat Read10X
 #' @export
 
-modalities_load_cellranger_count <- function(path, modalities=c("RNA","ADT","HTO"), folder="raw_feature_bc_matrix", hto.pattern="^hto", gex.listname="Gene Expression", adt.listname="Antibody Capture"){
+modalities_load_cellranger_count <- function(path, modalities=c("RNA","ADT","HTO"), folder="outs/raw_feature_bc_matrix", hto.pattern="^hto", gex.listname="Gene Expression", adt.listname="Antibody Capture"){
   data <- Seurat::Read10X(data.dir=file.path(path,folder))
 
   modality <- list()
