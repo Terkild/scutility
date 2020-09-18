@@ -7,7 +7,8 @@
 annotate_SingleR(
   data,
   reference = "MonacoImmuneData",
-  labels_column = "label.fine"
+  labels_column = "label.fine",
+  ...
 )
 }
 \arguments{
@@ -16,6 +17,8 @@ annotate_SingleR(
 \item{reference}{reference character string matching name of dataset to compare against (uses a selection from celldex package; default "MonacoImmuneData" covers most populations in PBMC). Alternatively, a custom SummarizedExperiment can be provided.}
 
 \item{labels_column}{name of labels column in the reference dataset to be used (labels.main or labels.fine if using celldex reference)}
+
+\item{...}{Passed on to SingleR::SingleR}
 }
 \value{
 data.frame containing labels for each cell

@@ -3,11 +3,12 @@
 #' @param	data	matrix of normalized expression values
 #' @param reference	reference character string matching name of dataset to compare against (uses a selection from celldex package; default "MonacoImmuneData" covers most populations in PBMC). Alternatively, a custom SummarizedExperiment can be provided.
 #' @param labels_column	name of labels column in the reference dataset to be used (labels.main or labels.fine if using celldex reference)
+#' @param ... Passed on to SingleR::SingleR
 #'
 #' @return	data.frame containing labels for each cell
 #' @export
 
-annotate_SingleR <- function(data, reference="MonacoImmuneData", labels_column="label.fine"){
+annotate_SingleR <- function(data, reference="MonacoImmuneData", labels_column="label.fine", ...){
   #BiocManager::install(c("celldex", "SingleR", "scRNAseq"))
   ## SingleR manual: https://bioconductor.org/packages/devel/bioc/vignettes/SingleR/inst/doc/SingleR.html
 
@@ -48,7 +49,7 @@ annotate_SingleR <- function(data, reference="MonacoImmuneData", labels_column="
   #ref <- scRNAseq::KotliarovPBMCData()
   #ref <- scRNAseq::MairPBMCData()
 
-  labels <- SingleR::SingleR(test=data, ref=ref, assay.type.test=1, labels=ref[[labels_column]])
+  labels <- SingleR::SingleR(test=data, ref=ref, assay.type.test=1, labels=ref[[labels_column]], ...)
 
   return(labels)
 }

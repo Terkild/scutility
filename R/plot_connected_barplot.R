@@ -108,7 +108,7 @@ plot_connected_barplot <- function(population, group, connected=TRUE, bar_width=
 
 
   plot <- ggplot(plotData, aes(x=group, y=value, fill=population, alluvium=population, stratum=population)) +
-    ggalluvial::geom_alluvium(alpha=0.6, color=alpha("grey",0.5), width=bar_width) +
+    ggalluvial::geom_stratum(color=alpha("black",0.5), width=bar_width) +
     scale_fill_manual(values=colors) +
     labs(y=y_label) +
     guides(fill=F) +
@@ -117,7 +117,7 @@ plot_connected_barplot <- function(population, group, connected=TRUE, bar_width=
     ggplot2::theme(axis.title.x=element_blank())
 
   if(connected == TRUE){
-    plot <- plot + ggalluvial::geom_stratum(color=alpha("black",0.5), width=bar_width)
+    plot <- plot + ggalluvial::geom_alluvium(alpha=0.6, color=alpha("grey",0.5), width=bar_width)
   }
 
   if(label == "last"){
