@@ -16,9 +16,14 @@ barcode_rank <- function(data){
 #' @return A subsetted sparse Matrix
 #' @importFrom Matrix Matrix cbind2
 #' @export
-subset_matrix <- function(data, barcodes, includeAll=TRUE, na.value=0){
+subset_matrix <- function(data, features=c(), barcodes=c(), includeAll=TRUE, na.value=0){
+  if(length(barcodes) < 1) barcodes <- colnames(data)
   cols <- intersect(colnames(data),barcodes)
   cols.diff <- setdiff(barcodes,colnames(data))
+
+  if(length(features) < 1) features <- rownames(data)
+  rows <- intersect(rownames(data),features)
+  rows.diff <- setdiff(features,rownames(data))
 
   newmatrix <- data[,cols]
 
@@ -29,6 +34,15 @@ subset_matrix <- function(data, barcodes, includeAll=TRUE, na.value=0){
                                 dimnames=list(rownames(data),cols.diff))
 
     newmatrix <- Matrix::cbind2(newmatrix, newmatrix.diff)
+  }
+
+  if(includeAll == TRUE & length(rows.diff) > 0){
+    newmatrix.diff <- Matrix::Matrix(data=na.value,
+                                     nrow=length(rows.diff),
+                                     ncol=length(barcodes),
+                                     dimnames=list(rows.diff,barcodes))
+
+    newmatrix <- Matrix::rbind2(newmatrix, newmatrix.diff)
   }
 
   return(newmatrix[,barcodes])
