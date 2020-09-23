@@ -7,7 +7,7 @@
 modalities_load_cellranger_count(
   path,
   modalities = c("RNA", "ADT", "HTO"),
-  folder = "raw_feature_bc_matrix",
+  folder = "outs/raw_feature_bc_matrix",
   hto.pattern = "^hto",
   gex.listname = "Gene Expression",
   adt.listname = "Antibody Capture"

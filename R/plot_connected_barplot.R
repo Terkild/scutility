@@ -4,6 +4,7 @@
 #' @param group.by Meta data column containing population/cluster assignment (y-axis)
 #' @param split.by Meta data column containing group or sample assignment (x-axis)
 #' @param wrap.by Meta data column to split into multiple independent plots (i.e. patient or tissue information)
+#' @param cells Vector of rows or cell barcodes to be included in plot.
 #' @param combine Boolean of whether multiple plots (when wrap.by is set) should be combined into a single plot (using cowplot)
 #' @param wrap_add  Integer of how much width should be allocated to y-axis text relative to the with of a bar (for combining plots)
 #'
@@ -11,9 +12,13 @@
 #' @importFrom Seurat FetchData
 #' @export
 
-seurat_plot_connected_barplot <- function(object, group.by="ident", split.by, wrap.by=NULL, combine=TRUE, wrap_add=0.5, ...){
+seurat_plot_connected_barplot <- function(object, group.by="ident", split.by, wrap.by=NULL, cells=c(), combine=TRUE, wrap_add=0.5, ...){
   getData <- Seurat::FetchData(object, vars=c(group.by, split.by, wrap.by))
   colnames(getData)[1:2] <- c("group.by","split.by")
+
+  if(length(cells)>0){
+    getData <- getData[cells,]
+  }
 
   if(!is.null(wrap.by)){
     colnames(getData)[3] <- "wrap.by"

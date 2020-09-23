@@ -4,7 +4,13 @@
 \alias{subset_matrix}
 \title{Subset a matrix}
 \usage{
-subset_matrix(data, barcodes, includeAll = TRUE, na.value = 0)
+subset_matrix(
+  data,
+  features = c(),
+  barcodes = c(),
+  includeAll = TRUE,
+  na.value = 0
+)
 }
 \value{
 A subsetted sparse Matrix

@@ -9,6 +9,7 @@ seurat_plot_connected_barplot(
   group.by = "ident",
   split.by,
   wrap.by = NULL,
+  cells = c(),
   combine = TRUE,
   wrap_add = 0.5,
   ...
@@ -22,6 +23,8 @@ seurat_plot_connected_barplot(
 \item{split.by}{Meta data column containing group or sample assignment (x-axis)}
 
 \item{wrap.by}{Meta data column to split into multiple independent plots (i.e. patient or tissue information)}
+
+\item{cells}{Vector of rows or cell barcodes to be included in plot.}
 
 \item{combine}{Boolean of whether multiple plots (when wrap.by is set) should be combined into a single plot (using cowplot)}
 
