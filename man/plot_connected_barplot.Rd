@@ -9,6 +9,7 @@ plot_connected_barplot(
   group,
   connected = TRUE,
   bar_width = 0.4,
+  normalize_to = NA,
   y_value = "percent",
   order = FALSE,
   colors = c(),
@@ -23,6 +24,8 @@ plot_connected_barplot(
 \item{connected}{Should bars from same group be connected?}
 
 \item{bar_width}{Relative width of bars (integer between 0 and 1)}
+
+\item{normalize_to}{Data frame containing normalization factor (i.e. total cell count from sample) as first column and group in the second column.}
 
 \item{y_value}{what statistic to plot ("percent" or "count")}
 

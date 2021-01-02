@@ -9,6 +9,7 @@ seurat_plot_connected_barplot(
   group.by = "ident",
   split.by,
   wrap.by = NULL,
+  normalize_to = NA,
   cells = c(),
   combine = TRUE,
   wrap_add = 0.5,
@@ -23,6 +24,8 @@ seurat_plot_connected_barplot(
 \item{split.by}{Meta data column containing group or sample assignment (x-axis)}
 
 \item{wrap.by}{Meta data column to split into multiple independent plots (i.e. patient or tissue information)}
+
+\item{normalize_to}{Data frame containing normalization factor (i.e. total cell count from sample) as first column, split.to (and wrap.by) in following columns. Important that colnames match split.to and wrap.by names}
 
 \item{cells}{Vector of rows or cell barcodes to be included in plot.}
 

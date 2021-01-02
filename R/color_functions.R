@@ -27,3 +27,27 @@ color_subcluster <- function(subcluster, cluster, cluster_colors=c()){
 
   return(colors.clustertype)
 }
+
+#' Color parent clusters by children
+#'
+#' Merges subcluster colors to a mixed color for parent
+#'
+#' @param clusters  vector of cluster annotations with length equal to subclusters
+#' @param subclusters vector of subclusters
+#' @param subcluster_colors vector of colors for each subcluster
+#'
+#' @import DescTools
+#' @import magrittr
+#' @export
+
+
+color_parentcluster <- function(clusters, subclusters, subcluster_colors){
+  newcolors <- data.frame(colors=subcluster_colors, subclusters=subclusters, clusters=clusters) %>%
+    group_by(clusters) %>%
+    summarize(newcolor=Reduce("MixColor", colors))
+
+  newcolor <- newcolors$newcolor
+  names(newcolor) <- newcolors$cluster
+
+  return(newcolor)
+}
