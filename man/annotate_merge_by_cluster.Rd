@@ -11,6 +11,15 @@ annotate_merge_by_cluster(
   collapse = "/"
 )
 }
+\arguments{
+\item{annotation}{vector of individual cell annotations (i.e. from SingleR) (one value for each cell)}
+
+\item{cluster}{vector of cluster assignments (one value for each cell)}
+
+\item{threshold}{Frequency threshold to be included in new cluster name (use 'max' to only include a single annotation)}
+
+\item{collapse}{If frequency is not 'max', the annotations that fullfil the threshold are separated by this character}
+}
 \description{
 Merges individual cell annotations by cluster using majority rule (the entire cluster is annotated as the individual annotation represented by most cells within the cluster)
 }

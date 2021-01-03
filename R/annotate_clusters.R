@@ -2,7 +2,13 @@
 #'
 #' Merges individual cell annotations by cluster using majority rule (the entire cluster is annotated as the individual annotation represented by most cells within the cluster)
 #'
+#' @param annotation vector of individual cell annotations (i.e. from SingleR) (one value for each cell)
+#' @param cluster vector of cluster assignments (one value for each cell)
+#' @param threshold Frequency threshold to be included in new cluster name (use 'max' to only include a single annotation)
+#' @param collapse If frequency is not 'max', the annotations that fullfil the threshold are separated by this character
 #'
+#' @export
+#' @import dplyr
 
 annotate_merge_by_cluster <- function(annotation, cluster, threshold="max", collapse="/"){
 
@@ -28,6 +34,14 @@ annotate_merge_by_cluster <- function(annotation, cluster, threshold="max", coll
 }
 
 #' Number subclusters by parent cluster
+#'
+#' Name subclusters by their parent cluster and numbering. The subcluster with the highest number of cells will be number 1 and so on.
+#'
+#' @param subcluster vector of subcluster assignments (one value for each cell)
+#' @param cluster vector of parent cluster assignment (one value for each cell)
+#'
+#' @export
+#' @import dplyr
 
 subcluster_number <- function(subcluster, cluster){
   data_subcluster <- data.frame(subcluster=subcluster, cluster=cluster) %>%

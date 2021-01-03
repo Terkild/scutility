@@ -6,6 +6,11 @@
 \usage{
 subcluster_number(subcluster, cluster)
 }
+\arguments{
+\item{subcluster}{vector of subcluster assignments (one value for each cell)}
+
+\item{cluster}{vector of parent cluster assignment (one value for each cell)}
+}
 \description{
-Number subclusters by parent cluster
+Name subclusters by their parent cluster and numbering. The subcluster with the highest number of cells will be number 1 and so on.
 }
