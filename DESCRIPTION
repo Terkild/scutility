@@ -10,3 +10,15 @@ License: GPL-3 | file LICENSE
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.1
+Imports: 
+  DescTools, 
+  DropletUtils, 
+  Matrix, 
+  RColorBrewer, 
+  Seurat, 
+  dplyr, 
+  ggalluvial, 
+  ggplot2, 
+  magrittr, 
+  tibble, 
+  tidyr

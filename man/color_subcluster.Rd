@@ -4,14 +4,24 @@
 \alias{color_subcluster}
 \title{Expand color vector for subclusters}
 \usage{
-color_subcluster(subcluster, cluster, cluster_colors = c())
+color_subcluster(
+  subcluster,
+  cluster,
+  cluster_colors = c(),
+  order = TRUE,
+  brightness_change = 0.15
+)
 }
 \arguments{
 \item{subcluster}{vector of subcluster assignments (can be duplicated across cell assignments)}
 
 \item{cluster}{vector of cluster assignment for each subcluster (vector of same length as subcluster)}
 
-\item{cluster_colors}{(named) vector of colors for each subcluster}
+\item{cluster_colors}{(named) vector of colors for each cluster}
+
+\item{order}{should colors be ordered by subcluster size? Set to FALSE to use factor levels}
+
+\item{brightness_change}{how big a change in color brightness should be applied at each step (between 0 and 1)}
 }
 \value{
 vector of colors
