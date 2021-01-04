@@ -6,22 +6,30 @@
 #' @param subcluster  vector of subcluster assignments (can be duplicated across cell assignments)
 #' @param cluster vector of cluster assignment for each subcluster (vector of same length as subcluster)
 #' @param cluster_colors (named) vector of colors for each cluster
+#' @param order should colors be ordered by subcluster size? Set to FALSE to use factor levels
 #' @param brightness_change how big a change in color brightness should be applied at each step (between 0 and 1)
 #'
 #' @return vector of colors
 #' @export
 
-color_subcluster <- function(subcluster, cluster, cluster_colors=c(), brightness_change=0.15){
-  clusters <- data.frame(subcluster=as.character(subcluster), cluster=as.character(cluster)) %>%
+color_subcluster <- function(subcluster, cluster, cluster_colors=c(), order=TRUE, brightness_change=0.15){
+
+  clusters <- data.frame(subcluster=subcluster, cluster=cluster) %>%
     group_by(cluster, subcluster) %>%
-    # get number of cells in each subcluster
-    summarize(count=n()) %>%
-    arrange(cluster, desc(count)) %>%
-    ungroup() %>%
-    mutate(clustertype=make.unique(subcluster)) %>%
-    group_by(cluster) %>%
-    mutate(rank=rank(count)) %>%
-    mutate(color=colorspace::lighten(cluster_colors[cluster],(rank-(max(rank)/2))*brightness_change))
+    summarize(count=n())
+
+  if(order == TRUE){
+    clusters <- clusters %>%
+      arrange(cluster, desc(count)) %>%
+      group_by(cluster) %>%
+      mutate(rank=rank(count))
+  } else {
+    clusters <- clusters %>%
+      group_by(cluster) %>%
+      mutate(rank=rev(rank(subcluster)))
+  }
+
+  clusters <- clusters %>% ungroup() %>% mutate(color=colorspace::lighten(cluster_colors[cluster],(rank-(max(rank)/2))*brightness_change))
 
   colors.clustertype <- clusters[['color']]
   names(colors.clustertype) <- clusters[['subcluster']]
