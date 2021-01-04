@@ -11,6 +11,9 @@ subcluster_number(subcluster, cluster)
 
 \item{cluster}{vector of parent cluster assignment (one value for each cell)}
 }
+\value{
+vector of cluster annotations
+}
 \description{
 Name subclusters by their parent cluster and numbering. The subcluster with the highest number of cells will be number 1 and so on.
 }

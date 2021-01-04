@@ -7,8 +7,9 @@
 #' @param threshold Frequency threshold to be included in new cluster name (use 'max' to only include a single annotation)
 #' @param collapse If frequency is not 'max', the annotations that fullfil the threshold are separated by this character
 #'
-#' @export
+#' @return vector of cluster annotations
 #' @import dplyr
+#' @export
 
 annotate_merge_by_cluster <- function(annotation, cluster, threshold="max", collapse="/"){
 
@@ -40,8 +41,9 @@ annotate_merge_by_cluster <- function(annotation, cluster, threshold="max", coll
 #' @param subcluster vector of subcluster assignments (one value for each cell)
 #' @param cluster vector of parent cluster assignment (one value for each cell)
 #'
-#' @export
+#' @return vector of cluster annotations
 #' @import dplyr
+#' @export
 
 subcluster_number <- function(subcluster, cluster){
   data_subcluster <- data.frame(subcluster=subcluster, cluster=cluster) %>%

@@ -20,6 +20,9 @@ annotate_merge_by_cluster(
 
 \item{collapse}{If frequency is not 'max', the annotations that fullfil the threshold are separated by this character}
 }
+\value{
+vector of cluster annotations
+}
 \description{
 Merges individual cell annotations by cluster using majority rule (the entire cluster is annotated as the individual annotation represented by most cells within the cluster)
 }
