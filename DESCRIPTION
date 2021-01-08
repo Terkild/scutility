@@ -6,7 +6,7 @@ Author: Terkild Brink Buus
 Maintainer: Terkild Brink Buus <terkild.buus@sund.ku.dk>
 Description: Various tools and helper functions for multi-modal single-cell analysis.
     Many functions are developed for analysis with Seurat.
-License: GPL-3 | file LICENSE
+License: GPL-3
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.1
@@ -20,5 +20,7 @@ Imports:
   ggalluvial, 
   ggplot2, 
   magrittr, 
+  patchwork,
+  scales,
   tibble, 
   tidyr
