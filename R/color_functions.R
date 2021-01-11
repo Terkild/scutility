@@ -12,7 +12,7 @@
 #' @return vector of colors
 #' @export
 
-color_subcluster <- function(subcluster, cluster, cluster_colors=c(), order=TRUE, brightness_change=0.15){
+color_subcluster <- function(subcluster, cluster, cluster_colors=c(), order=TRUE, brightness_change=NA, max_change=1){
 
   clusters <- data.frame(subcluster=subcluster, cluster=cluster) %>%
     group_by(cluster, subcluster) %>%
@@ -26,10 +26,17 @@ color_subcluster <- function(subcluster, cluster, cluster_colors=c(), order=TRUE
   } else {
     clusters <- clusters %>%
       group_by(cluster) %>%
-      mutate(rank=rev(rank(subcluster)))
+      mutate(rank=rank(subcluster))
   }
 
-  clusters <- clusters %>% ungroup() %>% mutate(color=colorspace::lighten(cluster_colors[cluster],(rank-(max(rank)/2))*brightness_change))
+
+  if(!is.na(brightness_change)){
+    ## Deprecated, but kept for consistency
+    clusters <- clusters %>% mutate(color=colorspace::lighten(cluster_colors[cluster],-(median(rank)-rank)*brightness_change))
+  } else {
+    brightness_change <- max_change/max(clusters$rank)
+    clusters <- clusters %>% mutate(color=colorspace::lighten(cluster_colors[cluster], amount=(median(rank)-rank)*brightness_change))
+  }
 
   colors.clustertype <- clusters[['color']]
   names(colors.clustertype) <- clusters[['subcluster']]
