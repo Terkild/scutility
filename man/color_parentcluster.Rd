@@ -11,7 +11,7 @@ color_parentcluster(clusters, subclusters, subcluster_colors)
 
 \item{subclusters}{vector of subclusters}
 
-\item{subcluster_colors}{vector of colors for each subcluster}
+\item{subcluster_colors}{Named vector of colors for each subcluster or vector of colors of equal length as subclusters}
 }
 \description{
 Merges subcluster colors to a mixed color for parent

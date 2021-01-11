@@ -9,7 +9,8 @@ color_subcluster(
   cluster,
   cluster_colors = c(),
   order = TRUE,
-  brightness_change = 0.15
+  brightness_change = NA,
+  max_change = 1
 )
 }
 \arguments{

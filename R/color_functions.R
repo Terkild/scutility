@@ -50,17 +50,32 @@ color_subcluster <- function(subcluster, cluster, cluster_colors=c(), order=TRUE
 #'
 #' @param clusters  vector of cluster annotations with length equal to subclusters
 #' @param subclusters vector of subclusters
-#' @param subcluster_colors vector of colors for each subcluster
+#' @param subcluster_colors Named vector of colors for each subcluster or vector of colors of equal length as subclusters
+#' @param mix Should colors of the two largest subclusters be mixed (by DescTools::MixColor)? If FALSE, the color from the largest subcluster will be used
 #'
 #' @import DescTools
 #' @import magrittr
 #' @export
 
 
-color_parentcluster <- function(clusters, subclusters, subcluster_colors){
+color_parentcluster <- function(clusters, subclusters, subcluster_colors, mix=TRUE){
+
+  if(length(subcluster_colors) != length(subclusters)){
+    subcluster_colors <- subcluster_colors[subclusters]
+  }
+
   newcolors <- data.frame(colors=subcluster_colors, subclusters=subclusters, clusters=clusters) %>%
-    group_by(clusters) %>%
-    summarize(newcolor=Reduce("MixColor", colors))
+    group_by(subclusters) %>% mutate(subcluster_count=n()) %>%
+    arrange(subcluster_count) %>%
+    group_by(clusters)
+
+  if(mix == TRUE){
+    newcolors %<>%
+      summarize(newcolor=Reduce("MixColor", unique(colors)))
+  } else {
+    newcolors %<>%
+      summarize(newcolor=colors[which.max(subcluster_count)])
+  }
 
   newcolor <- newcolors$newcolor
   names(newcolor) <- newcolors$cluster
