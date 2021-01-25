@@ -32,10 +32,11 @@ color_subcluster <- function(subcluster, cluster, cluster_colors=c(), order=TRUE
 
   if(!is.na(brightness_change)){
     ## Deprecated, but kept for consistency
-    clusters <- clusters %>% mutate(color=colorspace::lighten(cluster_colors[cluster],-(median(rank)-rank)*brightness_change))
+    clusters <- clusters %>% mutate(color=colorspace::lighten(cluster_colors[cluster], amount=-(median(rank)-rank)*brightness_change))
   } else {
-    brightness_change <- max_change/max(clusters$rank)
-    clusters <- clusters %>% mutate(color=colorspace::lighten(cluster_colors[cluster], amount=(median(rank)-rank)*brightness_change))
+    clusters <- clusters %>%
+      mutate(brightness_change=max_change/max(rank)) %>%
+      mutate(color=colorspace::lighten(cluster_colors[cluster], amount=(median(rank)-rank)*brightness_change))
   }
 
   colors.clustertype <- clusters[['color']]

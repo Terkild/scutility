@@ -223,7 +223,7 @@ plot_feature_rank_single <- function(value,
       geom_col(aes(y=value, x=barplot_group, fill=barplot_stack)) +
       geom_vline(xintercept=Inf) +
       scale_fill +
-      scale_x_discrete(expand=c(0.2,0,0,0)) +
+      scale_x_discrete(expand=c(0,0,0,0)) +
       scale_y_continuous(expand=c(0,0,0.01,0)) +
       theme_get() +
       theme(legend.position="none",
