@@ -522,7 +522,7 @@ plot_feature_rank <- function(value, group=NULL, group_names=NA, split=NULL, cel
 #' @export
 #' @importFrom Seurat FetchData
 
-plot_feature_rank_seurat <- function(object,
+seurat_plot_feature_rank <- function(object,
                                      feature,
                                      group.by=NULL,
                                      split.by=NULL,
