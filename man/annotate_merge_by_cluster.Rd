@@ -8,7 +8,8 @@ annotate_merge_by_cluster(
   annotation,
   cluster,
   threshold = "max",
-  collapse = "/"
+  collapse = "/",
+  exclude = c()
 )
 }
 \arguments{
@@ -19,6 +20,8 @@ annotate_merge_by_cluster(
 \item{threshold}{Frequency threshold to be included in new cluster name (use 'max' to only include a single annotation)}
 
 \item{collapse}{If frequency is not 'max', the annotations that fullfil the threshold are separated by this character}
+
+\item{exclude}{Vector of annotations that should not be merged, but kept as is (i.e. gdT cells defined by their TCR)}
 }
 \value{
 vector of cluster annotations

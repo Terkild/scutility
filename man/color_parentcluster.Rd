@@ -4,7 +4,7 @@
 \alias{color_parentcluster}
 \title{Color parent clusters by children}
 \usage{
-color_parentcluster(clusters, subclusters, subcluster_colors)
+color_parentcluster(clusters, subclusters, subcluster_colors, mix = TRUE)
 }
 \arguments{
 \item{clusters}{vector of cluster annotations with length equal to subclusters}
@@ -12,6 +12,8 @@ color_parentcluster(clusters, subclusters, subcluster_colors)
 \item{subclusters}{vector of subclusters}
 
 \item{subcluster_colors}{Named vector of colors for each subcluster or vector of colors of equal length as subclusters}
+
+\item{mix}{Should colors of the two largest subclusters be mixed (by DescTools::MixColor)? If FALSE, the color from the largest subcluster will be used}
 }
 \description{
 Merges subcluster colors to a mixed color for parent

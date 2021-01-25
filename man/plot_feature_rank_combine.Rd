@@ -11,8 +11,8 @@ plot_feature_rank_combine(
   height_rank = 8,
   height_density = 2,
   height_barplot = 1.6,
-  width_rank = 8,
-  width_violin = 2,
+  width_rank = 7.8,
+  width_celltype = 2.2,
   hjust = 0.5,
   vjust = 1,
   label_x = 0.55,
@@ -28,8 +28,6 @@ plot_feature_rank_combine(
 
 \item{width_rank}{Relative width of rank plot}
 
-\item{width_violin}{Relative width of violin plot}
-
 \item{hjust}{Horizontal justification of title. Passed on to cowplot::plot_grid()}
 
 \item{vjust}{Vertical justification of title. Passed on to cowplot::plot_grid()}
@@ -37,6 +35,8 @@ plot_feature_rank_combine(
 \item{label_x}{Label x-position. Passed on to cowplot::plot_grid()}
 
 \item{...}{Passed on to cowplot::plot_grid()}
+
+\item{width_violin}{Relative width of violin plot}
 }
 \description{
 Function for combining components of the feature rank plot.
