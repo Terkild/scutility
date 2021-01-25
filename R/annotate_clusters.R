@@ -6,12 +6,13 @@
 #' @param cluster vector of cluster assignments (one value for each cell)
 #' @param threshold Frequency threshold to be included in new cluster name (use 'max' to only include a single annotation)
 #' @param collapse If frequency is not 'max', the annotations that fullfil the threshold are separated by this character
+#' @param exclude Vector of annotations that should not be merged, but kept as is (i.e. gdT cells defined by their TCR)
 #'
 #' @return vector of cluster annotations
 #' @import dplyr
 #' @export
 
-annotate_merge_by_cluster <- function(annotation, cluster, threshold="max", collapse="/"){
+annotate_merge_by_cluster <- function(annotation, cluster, threshold="max", collapse="/", exclude=c()){
 
   group_merge <- data.frame(ann=annotation, cluster=cluster) %>%
     filter((ann  %in% exclude) == FALSE) %>%
