@@ -28,7 +28,7 @@ annotate_merge_by_cluster <- function(annotation, cluster, threshold="max", coll
   }
 
 
-  newcluster <- data.frame(annotation=annotation) %>%
+  newcluster <- data.frame(ann=annotation) %>%
     left_join(group_merge) %>%
     select(celltype) %>% .[[1]]
 
