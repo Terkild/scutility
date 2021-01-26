@@ -36,7 +36,7 @@ droplet_counts_per_compartment <- function(matrix, compartment, sum_function=sum
 
   sums <- list()
   for(i in seq_along(compartment)){
-    sums[[fraction_names[i]]] <- sum_function(matrix[,intersect(compartment[[i]],colnames(matrix))])
+    sums[[compartment_names[i]]] <- sum_function(matrix[,intersect(compartment[[i]],colnames(matrix))])
   }
   if(remaining_include == TRUE){
     sums[[remaining_name]] <- sum_function(matrix[,setdiff(colnames(matrix), unlist(compartment))])
