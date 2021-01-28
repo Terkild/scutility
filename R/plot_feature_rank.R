@@ -75,16 +75,16 @@ plot_feature_rank_single <- function(value,
   if(length(labels) > 0) labels_default[names(labels)] <- labels
   labels <- labels_default
 
-  if(is_null(group)) group <- 1
-  if(is_null(celltype_group)) celltype_group <- 1
-  if(is_null(cell_color_by)){
+  if(is.null(group)) group <- 1
+  if(is.null(celltype_group)) celltype_group <- 1
+  if(is.null(cell_color_by)){
     cell_color_by <- celltype_group
     cell_color <- celltype_group_color
   }
-  if(is_null(barplot_group)){
+  if(is.null(barplot_group)){
     barplot_group <- celltype_group
   }
-  if(is_null(barplot_stack)){
+  if(is.null(barplot_stack)){
     barplot_stack <- cell_color_by
     barplot_stack_color <- cell_color
   }
@@ -485,7 +485,7 @@ plot_feature_rank <- function(value, group=NULL, group_names=NA, split=NULL, cel
                                                                   ...)))
 
     if(combine == TRUE){
-      plot <- cowplot::plot_grid(plotlist=plot_list, nrow=nrow, rel_widths=widths)
+      plot <- cowplot::plot_grid(plotlist=plot_list, align="h", axis="tb", nrow=nrow, rel_widths=widths)
     } else {
       plot <- plot_list
     }
