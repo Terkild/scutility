@@ -20,6 +20,7 @@ plot_feature_rank_single(
   barplot_show_total = TRUE,
   barplot_total_fontface = "bold",
   barplot_show_ymax = TRUE,
+  barplot_alpha = 1,
   show_density = TRUE,
   show_barplot = TRUE,
   show_barcode = TRUE,
@@ -33,6 +34,7 @@ plot_feature_rank_single(
   threshold_size = 1,
   threshold_linetype = "dashed",
   threshold_show_celltype_pct = TRUE,
+  threshold_celltype_pct_fontface = "bold",
   threshold_celltype_pct_size = (theme_get()$text$size/(1/0.352777778)),
   labels = c(),
   ...
@@ -69,6 +71,8 @@ plot_feature_rank_single(
 
 \item{barplot_show_ymax}{Should maximum y-value tick be shown for barplot? (most meaningful for non-normalized counts)}
 
+\item{barplot_alpha}{Barplot alpha (can be reduced to make total count more readable)}
+
 \item{show_density}{Should density plot be drawn?}
 
 \item{show_barplot}{Should barplot be drawn?}
@@ -93,7 +97,11 @@ plot_feature_rank_single(
 
 \item{threshold_show_celltype_pct}{Show percent above threshold in celltype component}
 
+\item{threshold_celltype_pct_fontface}{Label face for percent above threshold in celltype component}
+
 \item{threshold_celltype_pct_size}{Label size for percent above threshold in celltype component}
+
+\item{labels}{Named vector of axis labels (set element to NULL to remove axis title). Default: c("x.rank"="Value", "y.rank"="Rank", "y.density"="Density", "y.barplot"="Sum")}
 
 \item{...}{Passed on to plot_feature_rank_combine(). Useful for setting relative component sizes.}
 

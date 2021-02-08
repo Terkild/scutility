@@ -16,6 +16,7 @@
 #' @param barplot_total_fontface Font face for total in barplot. Default "bold".
 #' @param barplot_show_ymax Should maximum y-value tick be shown for barplot? (most meaningful for non-normalized counts)
 #' @param barplot_ymax_size Font size for ymax text
+#' @param barplot_alpha     Barplot alpha (can be reduced to make total count more readable)
 #' @param show_density      Should density plot be drawn?
 #' @param show_barplot      Should barplot be drawn?
 #' @param show_barcode      Should barcode plot be drawn?
@@ -30,6 +31,8 @@
 #' @param threshold_linetype Threshold line type
 #' @param threshold_show_celltype_pct Show percent above threshold in celltype component
 #' @param threshold_celltype_pct_size Label size for percent above threshold in celltype component
+#' @param threshold_celltype_pct_fontface Label face for percent above threshold in celltype component
+#' @param labels            Named vector of axis labels (set element to NULL to remove axis title). Default: c("x.rank"="Value", "y.rank"="Rank", "y.density"="Density", "y.barplot"="Sum")
 #' @param ...               Passed on to plot_feature_rank_combine(). Useful for setting relative component sizes.
 #'
 #' @return ggplot2 object or list of ggplot2 objects (if combine=FALSE)
@@ -53,6 +56,7 @@ plot_feature_rank_single <- function(value,
                                      barplot_show_total=TRUE,
                                      barplot_total_fontface="bold",
                                      barplot_show_ymax=TRUE,
+                                     barplot_alpha=1,
                                      show_density=TRUE,
                                      show_barplot=TRUE,
                                      show_barcode=TRUE,
@@ -66,6 +70,7 @@ plot_feature_rank_single <- function(value,
                                      threshold_size=1,
                                      threshold_linetype="dashed",
                                      threshold_show_celltype_pct=TRUE,
+                                     threshold_celltype_pct_fontface="bold",
                                      threshold_celltype_pct_size=(theme_get()$text$size/(1/0.352777778)),
                                      labels=c(),
                                      ...){
@@ -166,7 +171,7 @@ plot_feature_rank_single <- function(value,
     guides(fill=guide_legend(reverse=guide_reverse)) +
     labs(x=labels["x.rank"], y=labels["y.rank"]) +
     theme_get() +
-    theme(legend.position=c(1,0),
+    theme(legend.position=c(0.99,0.01),
           legend.justification=c(1,0),
           legend.background=element_rect(fill=alpha("white",0.75)),
           legend.title=element_blank(),
@@ -220,7 +225,7 @@ plot_feature_rank_single <- function(value,
     }
 
     components[['barplot']] <- ggplot(barplotData) +
-      geom_col(aes(y=value, x=barplot_group, fill=barplot_stack)) +
+      geom_col(aes(y=value, x=barplot_group, fill=barplot_stack), alpha=barplot_alpha) +
       geom_vline(xintercept=Inf) +
       scale_fill +
       scale_x_discrete(expand=c(0,0,0,0)) +
@@ -248,6 +253,7 @@ plot_feature_rank_single <- function(value,
       components[['barplot']] <- components[['barplot']] +
         geom_text(data=group_sum, aes(y=Inf, x=((length(unique(barplot_group))+1)/2) ,label=total),
                   hjust=1, angle=90, vjust=0.35, fontface=barplot_total_fontface, size=(theme_get()$text$size/(1/0.352777778)))
+
     }
 
     if(!is.na(labels["y.barplot"])){
@@ -356,14 +362,14 @@ plot_feature_rank_single <- function(value,
       ## Add percent above threshold to plot
       components[['celltype']] <- components[['celltype']] +
         geom_text(data=threshold_celltype_pct, aes(y=(max(plotData$rank)*0.99), label=sprintf("%.1f",above_threshold*100)),
-                  angle=90, hjust=1, vjust=0.3, size=threshold_celltype_pct_size)
+                  angle=90, hjust=1, vjust=0.3, size=threshold_celltype_pct_size, fontface=threshold_celltype_pct_fontface)
     }
   }
 
-  if(combine == FALSE){
-    return(components)
-  } else {
+  if(combine == TRUE){
     return(plot_feature_rank_combine(components, ...))
+  } else {
+    return(components)
   }
 }
 
@@ -437,12 +443,18 @@ plot_feature_rank <- function(value, group=NULL, group_names=NA, split=NULL, cel
   if(!is.null(celltype_group)) plotData$celltype_group=celltype_group
   if(!is.null(cell_color_by)) plotData$cell_color_by=cell_color_by
 
+  split <- as.factor(split)
+
   if(length(split) == length(value)){
     data_list <- plotData %>% mutate(split=as.factor(split)) %>%
       group_by(split) %>% group_split() %>%
       setNames(levels(split))
 
-    labels_list <- lapply(data_list, function(x) labels)
+    if(is.list(labels)){
+      labels_list <- labels
+    } else {
+      labels_list <- lapply(seq_along(data_list), function(x) labels)
+    }
     widths <- rep(1, length(data_list))
 
     if(remove_ylabel == TRUE){
@@ -466,7 +478,7 @@ plot_feature_rank <- function(value, group=NULL, group_names=NA, split=NULL, cel
     if(is.null(names(title))) names(title) <- names(data_list)
 
     if(!is.list(group_names)){
-      group_names <- rep(group_names, length(data_list))
+      group_names <- lapply(seq_along(data_list), function(x) group_names)
     }
     if(is.null(names(group_names))) names(group_names) <- names(data_list)
 
@@ -530,6 +542,7 @@ seurat_plot_feature_rank <- function(object,
                                      cell_color_by=NULL,
                                      slot="counts",
                                      ...){
+
   if(!is.null(split.by)){
     split <-  Seurat::FetchData(object, split.by)[[1]]
   } else {
@@ -540,10 +553,11 @@ seurat_plot_feature_rank <- function(object,
   if(!is.null(celltype_group)) celltype_group <- Seurat::FetchData(object, celltype_group)[[1]]
   if(!is.null(group.by)) group.by <- Seurat::FetchData(object, group.by)[[1]]
 
-  plot_feature_rank(value=Seurat::FetchData(object, feature, slot=slot)[[1]],
+  return(plot_feature_rank(value=Seurat::FetchData(object, feature, slot=slot)[[1]],
                     group=group.by,
                     split=split,
                     celltype_group=celltype_group,
                     cell_color_by=cell_color_by,
-                    ...)
+                    ...))
+
 }
