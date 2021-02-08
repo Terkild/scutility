@@ -25,7 +25,7 @@
 #' @param combine           Should plot components be combined (default). If FALSE, a list of plot components will be returned.
 #' @param ties_method       ties.method passed on to rank().
 #' @param rank_normalized   Should ranks be normalized by group (TRUE) or show as absolute counts (FALSE). Default TRUE.
-#' @param threshold_y       If not NULL, a threshold line will be drawn at a the set rank
+#' @param threshold_y       If not NULL, a threshold line will be drawn at a the set rank. Should be set to expected fraction of positive cells.
 #' @param threshold_color   Threshold line color
 #' @param threshold_size    Threshold line size
 #' @param threshold_linetype Threshold line type
@@ -341,7 +341,7 @@ plot_feature_rank_single <- function(value,
   if(!is.na(threshold_y)){
     ## DOES NOT MAKE SENSE WITH MULTIPLE GROUPS!
     #threshold_rank <- min(plotData$rank[plotData$value >=threshold_value])
-    threshold_rank <- threshold_y
+    threshold_rank <- 1-threshold_y
 
     ## Add threshold line to rank plot component
     components[['rank']] <- components[['rank']] +
