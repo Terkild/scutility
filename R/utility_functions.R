@@ -84,33 +84,3 @@ translate_ensg_to_symbol <- function(raw_mtx, t2g.file){
 
   return(raw_mtx)
 }
-
-
-#' Biexponential transformation (inspired by flowJo)
-#'
-#' @export
-#' @import scales
-biexp_trans <- function(lim = 5, decade.size = lim){
-  trans <- function(x){
-    ifelse(x <= lim,
-           x,
-           lim + decade.size * (suppressWarnings(log(x, 10)) -
-                                  log(lim, 10)))
-  }
-  inv <- function(x) {
-    ifelse(x <= lim,
-           x,
-           10^(((x-lim)/decade.size) + log(lim,10)))
-  }
-  breaks <- function(x) {
-    if (all(x <= lim)) {
-      scales::pretty_breaks()(x)
-    } else if (all(x > lim)) {
-      scales::breaks_log(10)(x)
-    } else {
-      unique(c(scales::pretty_breaks()(c(x[1],lim)),
-               scales::breaks_log(10)(c(lim, x[2]))))
-    }
-  }
-  scales::trans_new(paste0("biexp-",format(lim)), trans, inv, breaks)
-}
