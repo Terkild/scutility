@@ -17,7 +17,7 @@
 #' @param combine Should plots be combined or returned as a list of plots?
 #' @param ... Passed on to Seurat::FeaturePlot
 #'
-#' @returns ggplot2 object(s)
+#' @return ggplot2 object(s)
 #' @export
 #' @import ggplot2
 #' @importFrom Seurat FeaturePlot FetchData

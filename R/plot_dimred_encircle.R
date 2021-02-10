@@ -32,7 +32,6 @@ dimred_encircle <- function(x, y, ..., contour_level="3%", contour_factor=1, ban
 #'
 #' For each groupings, calculate kernel density estimates and extract contour lines at a given level to make flexible encircling of points.
 #'
-#'
 #' @param data matrix or data.frame containing dimensions and grouping parameters. All columns that are not given as dim1 or dim2 (see below), will be used in grouping the resulting KDE contour.
 #' @param dim1 column position or column name of the first dimension in `data`
 #' @param dim2 column position or column name of the second dimension in `data`
