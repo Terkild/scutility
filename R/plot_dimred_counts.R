@@ -2,18 +2,18 @@
 #'
 #' Very crude and hardcoded function that calls Seurat::FeaturePlot. Needs a remake for more flexibility.
 #'
-#' @param object
-#' @param feature
+#' @param object Seurat object
+#' @param feature Seurat feature
 #' @param split.by Meta.data column in seurat object for splitting
 #' @param colors Color palette
 #' @param limits Limits for color palette (for counts it makes sense that lower limit is 0; DEFAULT: c(0, NA))
 #' @param order Should cells be ordered by expression
-#' @param slot
-#' @param max.cutoff
-#' @param pt.size
-#' @param legend.key.width
-#' @param legend.key.height
-#' @param legend.text
+#' @param slot Seurat slot
+#' @param max.cutoff max.cutoff passed on to FeaturePlot
+#' @param pt.size pt.size passed on to FeaturePlot
+#' @param legend.key.width Theme settings for width of legend
+#' @param legend.key.height Theme settings for height of legend
+#' @param legend.text Theme settings for
 #' @param combine Should plots be combined or returned as a list of plots?
 #' @param ... Passed on to Seurat::FeaturePlot
 #'

@@ -22,6 +22,10 @@ seurat_plot_dimred_counts(
 )
 }
 \arguments{
+\item{object}{Seurat object}
+
+\item{feature}{Seurat feature}
+
 \item{split.by}{Meta.data column in seurat object for splitting}
 
 \item{colors}{Color palette}
@@ -29,6 +33,18 @@ seurat_plot_dimred_counts(
 \item{limits}{Limits for color palette (for counts it makes sense that lower limit is 0; DEFAULT: c(0, NA))}
 
 \item{order}{Should cells be ordered by expression}
+
+\item{slot}{Seurat slot}
+
+\item{max.cutoff}{max.cutoff passed on to FeaturePlot}
+
+\item{pt.size}{pt.size passed on to FeaturePlot}
+
+\item{legend.key.width}{Theme settings for width of legend}
+
+\item{legend.key.height}{Theme settings for height of legend}
+
+\item{legend.text}{Theme settings for}
 
 \item{combine}{Should plots be combined or returned as a list of plots?}
 
