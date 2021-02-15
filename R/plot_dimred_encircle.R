@@ -80,7 +80,7 @@ dimred_encircle_groups <- function(data, dim1=1, dim2=2, ...){
 #' @import ggplot2
 #' @importFrom ggnewscale new_scale
 
-dimred_encircle_add <- function(data, dim1=1, dim2=2, color_by=NULL, colors=NULL, size=1, alpha=0, line_alpha=0.5, show_legend=FALSE, rescale=TRUE, ...){
+dimred_encircle_add <- function(data, dim1=1, dim2=2, color_by=NULL, colors=NULL, size=1, alpha=0, line_alpha=0.5, linetype="solid", show_legend=FALSE, rescale=TRUE, ...){
   contours <- dimred_encircle_groups(data=data, dim1=dim1, dim2=dim2, ...)
 
   if(is.null(color_by)){
@@ -109,7 +109,7 @@ dimred_encircle_add <- function(data, dim1=1, dim2=2, color_by=NULL, colors=NULL
   p <- list(ggnewscale::new_scale(c("color", "fill")),
             geom_polygon(data=contours,
                       aesthetics,
-                      size=size, alpha=alpha, show.legend=show_legend),
+                      size=size, alpha=alpha, show.legend=show_legend, linetype=linetype),
             colors,
             fill,
             expand_limits(x=range(contours$x), y=range(contours$y)),
