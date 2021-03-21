@@ -70,6 +70,8 @@ dimred_encircle_groups <- function(data, dim1=1, dim2=2, ...){
 #' @param dim2 column position or column name of the second dimension in `data`
 #' @param color_by column position or column name for coloring the geom_path
 #' @param size Line size for geom_polygon
+#' @param linetype Line type for geom_polygon
+#' @param line_alpha Alpha for line of geom_polygon
 #' @param alpha Alpha for geom_polygon
 #' @param show_legend Should legend be drawn?
 #' @param rescale Should scales be adjusted to make sure contours are complete? This will override previous scale_x_ and scale_y_.

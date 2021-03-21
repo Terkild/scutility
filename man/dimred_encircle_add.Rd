@@ -13,6 +13,7 @@ dimred_encircle_add(
   size = 1,
   alpha = 0,
   line_alpha = 0.5,
+  linetype = "solid",
   show_legend = FALSE,
   rescale = TRUE,
   ...
@@ -30,6 +31,10 @@ dimred_encircle_add(
 \item{size}{Line size for geom_polygon}
 
 \item{alpha}{Alpha for geom_polygon}
+
+\item{line_alpha}{Alpha for line of geom_polygon}
+
+\item{linetype}{Line type for geom_polygon}
 
 \item{show_legend}{Should legend be drawn?}
 
