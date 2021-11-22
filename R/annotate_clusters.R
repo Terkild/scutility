@@ -49,8 +49,11 @@ annotate_merge_by_cluster <- function(annotation, cluster, threshold="max", coll
 subcluster_number <- function(subcluster, cluster){
   data_subcluster <- data.frame(subcluster=subcluster, cluster=cluster) %>%
     group_by(cluster, subcluster) %>% summarize(count=n()) %>%
-    group_by(cluster) %>% mutate(rank = rank(-count, ties.method='first'), num_rank=n()) %>%
-    mutate(subcluster_name = ifelse(num_rank>1, paste0(cluster,".",rank), cluster))
+    group_by(cluster) %>% mutate(rank = rank(-count, ties.method='first'), num_rank=n()) #%>%
+    #mutate(subcluster_name = ifelse(num_rank>1, paste0(cluster,".",rank), cluster))
+
+  data_subcluster$subcluster_name <- as.character(data_subcluster$cluster)
+  data_subcluster$subcluster_name[data_subcluster$num_rank>1] <- with(data_subcluster[data_subcluster$num_rank>1,], paste(cluster, rank, sep="."))
 
   newcluster <- data.frame(subcluster=subcluster) %>%
     left_join(data_subcluster) %>%

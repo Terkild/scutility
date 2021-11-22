@@ -3,7 +3,7 @@ cutoff_set <- function(values, cutoff){
   if(is.numeric(cutoff)){
     cutoff <- cutoff
   } else if(substr(cutoff, 1, 1) == "q"){
-    cutoff <- quantile(values, probs=(as.numeric(gsub("q","", cutoff))/100))
+    cutoff <- quantile(values, probs=(as.numeric(gsub("q","", cutoff))/100), na.rm=TRUE)
   } else {
     cutoff <- NULL
   }
@@ -24,6 +24,7 @@ cutoff_set <- function(values, cutoff){
 #' @return ggplot2 object
 #'
 #' @importFrom scater plotReducedDim retrieveCellInfo
+#' @importFrom ggplot2 guides guide_legend
 #' @import SingleCellExperiment
 #' @export
 plot_dimred <- function(object, colour_by, by_exprs_values="logcounts", max.cutoff=NA, min.cutoff=NA, order=FALSE, decreasing=FALSE, na.last=FALSE, ...){
@@ -45,5 +46,5 @@ plot_dimred <- function(object, colour_by, by_exprs_values="logcounts", max.cuto
     object <- object[, order(colData(object)[, colour_by], decreasing=decreasing, na.last=na.last)]
   }
 
-  scater::plotReducedDim(object=object, colour_by=colour_by, by_exprs_values=by_exprs_values, ...)
+  scater::plotReducedDim(object=object, colour_by=colour_by, by_exprs_values=by_exprs_values, ...) + ggplot2::guides(color=ggplot2::guide_legend(override.aes=list(size=2, alpha=1)))
 }

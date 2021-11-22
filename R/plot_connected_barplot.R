@@ -13,7 +13,7 @@
 #' @importFrom Seurat FetchData
 #' @export
 
-seurat_plot_connected_barplot <- function(object, group.by="ident", split.by, wrap.by=NULL, normalize_to=NA, cells=c(), combine=TRUE, wrap_add=0.5, ...){
+seurat_plot_connected_barplot <- function(object, group.by="ident", split.by, wrap.by=NULL, normalize_to=NULL, cells=c(), combine=TRUE, wrap_add=0.5, ...){
   getData <- Seurat::FetchData(object, vars=c(group.by, split.by, wrap.by))
   colnames(getData)[1:2] <- c("group.by","split.by")
 
@@ -27,7 +27,7 @@ seurat_plot_connected_barplot <- function(object, group.by="ident", split.by, wr
     dataList <- split(getData, getData$wrap.by)
     plots <- lapply(dataList, function(x){
         ## If normalize_to is set, extract data frame related to current "wrap"
-        if(!is.na(normalize_to)) normalize_to <- normalize_to[normalize_to[[wrap.by]] == x$wrap.by[1], c(1,2)]
+        if(!is.null(normalize_to)) normalize_to <- normalize_to[normalize_to[[wrap.by]] == x$wrap.by[1], c(1,2)]
         plot_connected_barplot(population=x$group.by, group=x$split.by, normalize_to=normalize_to, ...) + ggtitle(x$wrap.by[1])
       })
 
@@ -64,7 +64,7 @@ seurat_plot_connected_barplot <- function(object, group.by="ident", split.by, wr
 #' @import ggplot2
 #' @export
 
-plot_connected_barplot <- function(population, group, connected=TRUE, bar_width=0.4, normalize_to=NA, y_value="percent", order=FALSE, colors=c(), label=FALSE){
+plot_connected_barplot <- function(population, group, connected=TRUE, bar_width=0.4, normalize_to=NULL, y_value="percent", order=FALSE, colors=c(), label=FALSE){
   getData <- data.frame(group=group, population=population)
 
   if(class(group) != "factor") getData$group <- as.factor(getData$group)
@@ -105,12 +105,12 @@ plot_connected_barplot <- function(population, group, connected=TRUE, bar_width=
 
 
   if(y_value == "percent"){
-    if(!is.na(normalize_to)){
+    if(!is.null(normalize_to)){
       colnames(normalize_to) <- c("norm", "group")
 
       plotData <- plotData %>%
         left_join(normalize_to, by="group") %>%
-        mutate(pct=populationCount/norm*100) %>%
+        mutate(pct=populationCount/groupCount*norm) %>%
         mutate(value=pct)
     } else {
       plotData <- plotData %>%
@@ -131,7 +131,6 @@ plot_connected_barplot <- function(population, group, connected=TRUE, bar_width=
     ggalluvial::geom_stratum(color=alpha("black",0.5), width=bar_width) +
     scale_fill_manual(values=colors) +
     labs(y=y_label) +
-    guides(fill=F) +
     scale_y_continuous(expand=c(0,0,0.0,0)) +
     scale_x_discrete(expand=c(0,0,0,0)) +
     ggplot2::theme(axis.title.x=element_blank())
