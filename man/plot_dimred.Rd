@@ -7,12 +7,25 @@
 plot_dimred(
   object,
   colour_by,
+  dimred = "UMAP",
   by_exprs_values = "logcounts",
-  max.cutoff = NA,
-  min.cutoff = NA,
+  seed = 12232,
   order = FALSE,
   decreasing = FALSE,
   na.last = FALSE,
+  shuffle = FALSE,
+  point_size = 0.5,
+  point_alpha = 1,
+  max.cutoff = NA,
+  min.cutoff = NA,
+  scale_color = NULL,
+  text_by = NULL,
+  text_by_colour = "black",
+  text_by_dimred_summary_fun = median,
+  text_by_size = NA,
+  text_by_fontface = "bold",
+  text_by_padding = unit(0.01, units = "npc"),
+  text_by_fill = alpha(c("white"), 0.75),
   ...
 )
 }
@@ -23,9 +36,7 @@ plot_dimred(
 
 \item{by_exprs_values}{SCE Assay to use}
 
-\item{max.cutoff}{Cutoff value for upper limit (can be integer or 'q' value for quantile: 'q95' sets at 95% quantile)}
-
-\item{min.cutoff}{Cutoff value for lower limit (see max.cutoff)}
+\item{seed}{Seed for random operations}
 
 \item{order}{Should points plotted in order by their value}
 
@@ -33,7 +44,33 @@ plot_dimred(
 
 \item{na.last}{Should NA values be last (on top)?}
 
-\item{...}{Passed on to scater::plotReducedDim}
+\item{shuffle}{Should points be plotted in random order}
+
+\item{point_size}{Size of individual points}
+
+\item{point_alpha}{Alpha level of each point}
+
+\item{max.cutoff}{Cutoff value for upper limit (can be integer or 'q' value for quantile: 'q95' sets at 95% quantile)}
+
+\item{min.cutoff}{Cutoff value for lower limit (see max.cutoff)}
+
+\item{scale_color}{Color scale to use (viridis by default)}
+
+\item{text_by}{Variable to use for labelling}
+
+\item{text_by_colour}{Label color if text_by is set (black by default)}
+
+\item{text_by_dimred_summary_fun}{Which function should be used to place text_by (default median)}
+
+\item{text_by_size}{Text size if text_by is set}
+
+\item{text_by_fontface}{Fontface is text_by is set (default "bold")}
+
+\item{text_by_padding}{Label padding if text_by is set.}
+
+\item{text_by_fill}{Label fill if text_by is set (alpha("white", 0.75) default)}
+
+\item{...}{Passed on to makePerCellDF}
 }
 \value{
 ggplot2 object

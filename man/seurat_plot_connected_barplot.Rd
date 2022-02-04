@@ -9,7 +9,7 @@ seurat_plot_connected_barplot(
   group.by = "ident",
   split.by,
   wrap.by = NULL,
-  normalize_to = NA,
+  normalize_to = NULL,
   cells = c(),
   combine = TRUE,
   wrap_add = 0.5,

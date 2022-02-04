@@ -9,7 +9,7 @@ plot_connected_barplot(
   group,
   connected = TRUE,
   bar_width = 0.4,
-  normalize_to = NA,
+  normalize_to = NULL,
   y_value = "percent",
   order = FALSE,
   colors = c(),
