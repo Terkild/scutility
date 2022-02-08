@@ -42,6 +42,7 @@ plot_quadrants <- function(plotData, x, y, color, wrap=NULL,
     geom_text(data=quadrant_stats, aes(x=ifelse(xpos==1, Inf, text_pos_lower), y=ifelse(ypos==1, Inf, text_pos_lower), hjust=xpos*1.5, vjust=ypos*1.5, label=sprintf("%.2f", quadrant_pct*100)), color="black") +
     scale_y_continuous(trans=trans, breaks=breaks[which(breaks <= max(plotData[[y]]))]) +
     scale_x_continuous(trans=trans, breaks=breaks[which(breaks <= max(plotData[[x]]))]) +
-    geom_vline(xintercept=eval(parse(text=paste0(trans,"(threshold_y)")))) + geom_hline(yintercept=eval(parse(text=paste0(trans,"(threshold_y)")))) +
+    #geom_vline(xintercept=eval(parse(text=paste0(trans,"(threshold_x)")))) + geom_hline(yintercept=eval(parse(text=paste0(trans,"(threshold_y)")))) +
+    geom_vline(xintercept=threshold_x) + geom_hline(yintercept=threshold_y) +
     add_wrap
 }
