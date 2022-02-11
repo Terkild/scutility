@@ -7,6 +7,7 @@
 plot_dimred(
   object,
   colour_by,
+  features_add = c(),
   dimred = "UMAP",
   by_exprs_values = "logcounts",
   seed = 12232,
@@ -26,6 +27,7 @@ plot_dimred(
   text_by_fontface = "bold",
   text_by_padding = unit(0.01, units = "npc"),
   text_by_fill = alpha(c("white"), 0.75),
+  coldata_exclude_class = c("CompressedSplitDFrameList"),
   ...
 )
 }
@@ -33,6 +35,8 @@ plot_dimred(
 \item{object}{SingleCellExperiment object}
 
 \item{colour_by}{Variable to use for coloring}
+
+\item{features_add}{Fetch additional features to data.frame given to ggplot (for specialized plotting)}
 
 \item{by_exprs_values}{SCE Assay to use}
 
@@ -69,6 +73,8 @@ plot_dimred(
 \item{text_by_padding}{Label padding if text_by is set.}
 
 \item{text_by_fill}{Label fill if text_by is set (alpha("white", 0.75) default)}
+
+\item{coldata_exclude_class}{By default loads all colData except the columns of the classes included in this vector}
 
 \item{...}{Passed on to makePerCellDF}
 }
