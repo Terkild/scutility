@@ -37,6 +37,8 @@ mtx_long_save <- function(mtx, path, file_matrix="matrix.mtx", file_barcodes="ba
 
 #' Balance/Upsample mtx
 #'
+#' @import dplyr
+#' @importFrom purrr map2_dfr
 #' @export
 mtx_balance <- function(path,
                         n_samples,
@@ -77,7 +79,7 @@ mtx_balance <- function(path,
   mtx_up <- mtx %>%
     filter(feature %in% feature_sum$feature) %>%
     group_split(feature) %>%
-    map2_dfr(feature_sum$sample_size, ~ slice_sample(.x, n = .y, weight_by=.x$count, replace=TRUE)) %>%
+    map2_dfr(feature_sum$sample_size, ~ if(.y > 0){slice_sample(.x, n = .y, weight_by=.x$count, replace=TRUE)}) %>%
     select(feature, barcode) %>%
     group_by(feature, barcode) %>%
     summarize(count_add=n())
@@ -91,7 +93,7 @@ mtx_balance <- function(path,
   # Save balanced matrix to files
   if(!is.null(path_save)){
     mtx_long_save(mtx_new[,c(matrix_colnames[1:2],"sum")], path=path_save, file_matrix=file_matrix, file_barcodes=file_barcodes, file_features=file_features, matrix_sep=matrix_sep)
-    return(TRUE)
+    return(mtx_new)#return(TRUE)
   } else {
 
     # or return balanced matrix in long format data.frame
