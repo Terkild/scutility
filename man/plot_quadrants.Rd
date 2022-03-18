@@ -14,8 +14,14 @@ plot_quadrants(
   breaks = c(0, 1, 2, 3, 5, 10, 25, 50, 100, 200, 500, 1000),
   threshold_x = 0.5,
   threshold_y = 0.5,
+  point_size = 0.25,
+  point_alpha = 0.5,
   text_pos_lower = log1p(-0.25),
-  jitter = position_jitter(width = 0.18, height = 0.18, seed = 124)
+  jitter = position_jitter(width = 0.18, height = 0.18, seed = 124, ),
+  rasterise = FALSE,
+  rasterise_dev = "cairo",
+  rasterise_dpi = 300,
+  rasterise_scale = 1
 )
 }
 \arguments{
@@ -37,9 +43,21 @@ plot_quadrants(
 
 \item{threshold_y}{y gating threshold}
 
+\item{point_size}{Size of individual points}
+
+\item{point_alpha}{Alpha level of each point}
+
 \item{text_pos_lower}{text position}
 
 \item{jitter}{jitter function for geom_points}
+
+\item{rasterise}{Should points be rasterised (ggrastr)?}
+
+\item{rasterise_dev}{What device should be used for rasterisation?}
+
+\item{rasterise_dpi}{What DPI should be used for rasterisation?}
+
+\item{rasterise_scale}{What scale should be used for rasterisation?}
 }
 \value{
 ggplot

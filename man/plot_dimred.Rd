@@ -28,6 +28,10 @@ plot_dimred(
   text_by_padding = unit(0.01, units = "npc"),
   text_by_fill = alpha(c("white"), 0.75),
   coldata_exclude_class = c("CompressedSplitDFrameList"),
+  rasterise = FALSE,
+  rasterise_dev = "cairo",
+  rasterise_dpi = 300,
+  rasterise_scale = 1,
   ...
 )
 }
@@ -37,6 +41,8 @@ plot_dimred(
 \item{colour_by}{Variable to use for coloring}
 
 \item{features_add}{Fetch additional features to data.frame given to ggplot (for specialized plotting)}
+
+\item{dimred}{Which dimensional reductions should be used?}
 
 \item{by_exprs_values}{SCE Assay to use}
 
@@ -75,6 +81,14 @@ plot_dimred(
 \item{text_by_fill}{Label fill if text_by is set (alpha("white", 0.75) default)}
 
 \item{coldata_exclude_class}{By default loads all colData except the columns of the classes included in this vector}
+
+\item{rasterise}{Should points be rasterised (ggrastr)?}
+
+\item{rasterise_dev}{What device should be used for rasterisation?}
+
+\item{rasterise_dpi}{What DPI should be used for rasterisation?}
+
+\item{rasterise_scale}{What scale should be used for rasterisation?}
 
 \item{...}{Passed on to makePerCellDF}
 }
