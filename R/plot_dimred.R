@@ -54,10 +54,18 @@ plot_dimred <- function(object, colour_by, features_add=c(), dimred="UMAP", by_e
                         coldata_exclude_class=c("CompressedSplitDFrameList"),
                         rasterise=FALSE, rasterise_dev="cairo", rasterise_dpi=300, rasterise_scale=1, ...){
 
-  features <- append(c(colour_by, text_by),features_add)
+  features <- unique(append(c(colour_by, text_by),features_add))
 
   # including all colData unless the column class is tagged to not be included
-  data <- colData(object)[,-which(unlist(lapply(colData(object), class)) %in% coldata_exclude_class), drop=FALSE] %>% as.data.frame()
+  colData_remove <- which(unlist(lapply(colData(object), class)) %in% coldata_exclude_class)
+
+  if(length(colData_remove) > 0){
+    data <- colData(object)[,-colData_remove, drop=FALSE] %>% as.data.frame()
+  } else {
+    data <- colData(object) %>% as.data.frame()
+  }
+
+  ## Alternatively, only return metadata needed
   #data <- colData(object) %>% .[,intersect(features, colnames(.)), drop=FALSE] %>% as.data.frame()
 
   find_features <- setdiff(features,colnames(data))
@@ -65,6 +73,8 @@ plot_dimred <- function(object, colour_by, features_add=c(), dimred="UMAP", by_e
   # if features are not included in colData, fetch them together with dim reduction
   data %<>% cbind(makePerCellDF(x=object, features=find_features, use.dimred=dimred, use.coldata=FALSE, assay.type=by_exprs_values, ...))
 
+
+  #print(dim(data))
   # if cutoffs are set, calculate cutoffs
   if(!is.na(max.cutoff)) max.cutoff <- cutoff_set(data[[colour_by]], max.cutoff)
   if(!is.na(min.cutoff)) min.cutoff <- cutoff_set(data[[colour_by]], min.cutoff)
