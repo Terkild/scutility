@@ -100,3 +100,78 @@ mtx_balance <- function(path,
     return(mtx_new)
   }
 }
+
+
+#' Balance/Upsample mtx
+#'
+#' @import dplyr
+#' @importFrom purrr map2_dfr
+#' @export
+mtx_balance_matrix <- function(matrix,
+                                n_samples=NULL,
+                                expected_counts=c(),
+                                ...){
+
+  # Load matrix
+  mtx <- data.frame(feature=rownames(matrix), barcode=rep(colnames(matrix), each=nrow(matrix)), count=matrix[seq(1:length(matrix))])
+
+  ## Determine how many UMIs to sample from each tag
+  feature_sum <- mtx %>%
+    group_by(feature) %>%
+    summarize(sum=sum(count))
+
+
+  if(length(setdiff(names(expected_counts), feature_sum$feature)) < 1){
+
+    # only include tags expected to have cell counts
+    feature_sum <- feature_sum %>% filter(feature %in% names(expected_counts))
+
+  } else if(is.null(n_sample)){
+
+    stop("n_sample or expected_counts has to be set")
+
+  } else {
+    # Only include the top N tags where N is the number of samples given
+    # top_n(n=n_samples, wt=sum) %>%
+    feature_sum <- feature_sum %>% top_n(n=n_samples, wt=sum)
+  }
+
+  feature_sum <- feature_sum %>% ungroup() %>%
+    mutate(sample_size=max(sum)-sum) %>%
+    as.data.frame()
+
+  # if expected cell counts from each sample is not equal correct for this
+  if(length(expected_counts) == nrow(feature_sum)){
+    if(length(intersect(names(expected_counts), feature_sum$feature)) != nrow(feature_sum)) stop("expected_counts needs to have same names as tags")
+
+    feature_sum <- feature_sum %>%
+      mutate(sum_per_cell=sum/expected_counts[as.character(feature)]) %>%
+      mutate(sample_size_per_cell=max(sum_per_cell)-sum_per_cell,
+             sample_size=sample_size_per_cell*expected_counts[as.character(feature)]) %>%
+      as.data.frame()
+  }
+
+  #print(feature_sum)
+
+  # Upsampling
+  mtx_up <- mtx %>%
+    filter(feature %in% feature_sum$feature) %>%
+    group_split(feature) %>%
+    map2_dfr(feature_sum$sample_size, ~ if(.y > 0){slice_sample(.x, n = .y, weight_by=.x$count, replace=TRUE)}) %>%
+    select(feature, barcode) %>%
+    group_by(feature, barcode) %>%
+    summarize(count_add=n())
+
+  #print(mtx_up %>% group_by(feature) %>% summarize(count=sum(count_add)))
+
+  # Make new long format matrix
+  mtx_new <- mtx %>%
+    filter(feature %in% feature_sum$feature) %>%
+    left_join(mtx_up) %>%
+     mutate(count_add=ifelse(is.na(count_add),0,count_add)) %>%
+     mutate(sum=count+count_add)
+
+  #print(mtx_new %>% group_by(feature) %>% summarize(count=sum(count),count_add=sum(count_add),sum=sum(sum)))
+
+  return(mtx_new)
+}

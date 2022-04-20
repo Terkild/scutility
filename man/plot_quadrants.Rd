@@ -17,7 +17,7 @@ plot_quadrants(
   point_size = 0.25,
   point_alpha = 0.5,
   text_pos_lower = log1p(-0.25),
-  jitter = position_jitter(width = 0.18, height = 0.18, seed = 124, ),
+  jitter = position_jitter(width = 0.18, height = 0.18, seed = 124),
   rasterise = FALSE,
   rasterise_dev = "cairo",
   rasterise_dpi = 300,
