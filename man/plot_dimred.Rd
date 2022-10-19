@@ -9,11 +9,13 @@ plot_dimred(
   colour_by,
   features_add = c(),
   dimred = "UMAP",
+  columns = NULL,
   by_exprs_values = "logcounts",
   seed = 12232,
   order = FALSE,
-  decreasing = FALSE,
-  na.last = FALSE,
+  order_function = function(x) {
+     order(x, decreasing = FALSE, na.last = FALSE)
+ },
   shuffle = FALSE,
   point_size = 0.5,
   point_alpha = 1,
@@ -27,6 +29,8 @@ plot_dimred(
   text_by_fontface = "bold",
   text_by_padding = unit(0.01, units = "npc"),
   text_by_fill = alpha(c("white"), 0.75),
+  text_repel = TRUE,
+  text_repel_max_overlaps = Inf,
   coldata_exclude_class = c("CompressedSplitDFrameList"),
   rasterise = FALSE,
   rasterise_dev = "cairo",
@@ -44,15 +48,15 @@ plot_dimred(
 
 \item{dimred}{Which dimensional reductions should be used?}
 
+\item{columns}{Vector of columns in SCE to plot}
+
 \item{by_exprs_values}{SCE Assay to use}
 
 \item{seed}{Seed for random operations}
 
 \item{order}{Should points plotted in order by their value}
 
-\item{decreasing}{Should ordering be decreasing}
-
-\item{na.last}{Should NA values be last (on top)?}
+\item{order_function}{What function should be used for ordering?}
 
 \item{shuffle}{Should points be plotted in random order}
 
@@ -79,6 +83,10 @@ plot_dimred(
 \item{text_by_padding}{Label padding if text_by is set.}
 
 \item{text_by_fill}{Label fill if text_by is set (alpha("white", 0.75) default)}
+
+\item{text_repel}{Should text labels be repelled from each other?}
+
+\item{text_repel_max_overlaps}{Max overlaps for ggrepel}
 
 \item{coldata_exclude_class}{By default loads all colData except the columns of the classes included in this vector}
 

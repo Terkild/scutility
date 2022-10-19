@@ -16,6 +16,8 @@ dimred_encircle_add(
   linetype = "solid",
   show_legend = FALSE,
   rescale = TRUE,
+  borderline = FALSE,
+  borderline_color = alpha("black", 0.5),
   ...
 )
 }
@@ -39,6 +41,10 @@ dimred_encircle_add(
 \item{show_legend}{Should legend be drawn?}
 
 \item{rescale}{Should scales be adjusted to make sure contours are complete? This will override previous scale_x_ and scale_y_.}
+
+\item{borderline}{Should line have a border?}
+
+\item{borderline_color}{If borderline=TRUE, what color should be used for border?}
 
 \item{...}{Passed on to scutility::dimred_encircle_groups()}
 }

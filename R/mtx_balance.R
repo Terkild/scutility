@@ -113,7 +113,7 @@ mtx_balance_matrix <- function(matrix,
                                 ...){
 
   # Load matrix
-  mtx <- data.frame(feature=rownames(matrix), barcode=rep(colnames(matrix), each=nrow(matrix)), count=matrix[seq(1:length(matrix))])
+  mtx <- data.frame(feature=rownames(matrix), barcode=rep(colnames(matrix), each=nrow(matrix)), count=matrix[seq(1:length(matrix))]) %>% filter(count > 0)
 
   ## Determine how many UMIs to sample from each tag
   feature_sum <- mtx %>%
@@ -121,14 +121,14 @@ mtx_balance_matrix <- function(matrix,
     summarize(sum=sum(count))
 
 
-  if(length(setdiff(names(expected_counts), feature_sum$feature)) < 1){
+  if(length(expected_counts) > 0){
 
     # only include tags expected to have cell counts
     feature_sum <- feature_sum %>% filter(feature %in% names(expected_counts))
 
-  } else if(is.null(n_sample)){
+  } else if(is.null(n_samples) & length(expected_counts) == 0){
 
-    stop("n_sample or expected_counts has to be set")
+    stop("n_samples or expected_counts has to be set")
 
   } else {
     # Only include the top N tags where N is the number of samples given

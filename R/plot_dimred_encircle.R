@@ -75,6 +75,8 @@ dimred_encircle_groups <- function(data, dim1=1, dim2=2, ...){
 #' @param alpha Alpha for geom_polygon
 #' @param show_legend Should legend be drawn?
 #' @param rescale Should scales be adjusted to make sure contours are complete? This will override previous scale_x_ and scale_y_.
+#' @param borderline Should line have a border?
+#' @param borderline_color If borderline=TRUE, what color should be used for border?
 #' @param ... Passed on to scutility::dimred_encircle_groups()
 #'
 #' @return list of ggplot elements
@@ -82,7 +84,7 @@ dimred_encircle_groups <- function(data, dim1=1, dim2=2, ...){
 #' @import ggplot2
 #' @importFrom ggnewscale new_scale
 
-dimred_encircle_add <- function(data, dim1=1, dim2=2, color_by=NULL, colors=NULL, size=1, alpha=0, line_alpha=0.5, linetype="solid", show_legend=FALSE, rescale=TRUE, ...){
+dimred_encircle_add <- function(data, dim1=1, dim2=2, color_by=NULL, colors=NULL, size=1, alpha=0, line_alpha=0.5, linetype="solid", show_legend=FALSE, rescale=TRUE, borderline=FALSE, borderline_color=alpha("black",0.5), ...){
   contours <- dimred_encircle_groups(data=data, dim1=dim1, dim2=dim2, ...)
 
   if(is.null(color_by)){
@@ -91,7 +93,7 @@ dimred_encircle_add <- function(data, dim1=1, dim2=2, color_by=NULL, colors=NULL
     color_by <- "color_by"
   }
 
-  aesthetics <- aes(x=x, y=y, color=.data[[color_by]], group=.data[[color_by]], fill=.data[[color_by]])
+  aesthetics <- aes(x=x, y=y, colour=.data[[color_by]], group=.data[[color_by]], fill=.data[[color_by]])
 
   if(!is.null(colors) & !is.null(color_by)){
     fill <- scale_fill_manual(values=colors)
@@ -110,14 +112,18 @@ dimred_encircle_add <- function(data, dim1=1, dim2=2, color_by=NULL, colors=NULL
 
   p <- list(ggnewscale::new_scale(c("color", "fill")),
             geom_polygon(data=contours,
-                      aesthetics,
-                      size=size, alpha=alpha, show.legend=show_legend, linetype=linetype),
+                         aesthetics,
+                         size=size, alpha=alpha, show.legend=show_legend, linetype=linetype),
             colors,
             fill,
             expand_limits(x=range(contours$x), y=range(contours$y)),
             rescale_x,
             rescale_y,
             NULL)
+
+  if(borderline == TRUE) p <- append(geom_polygon(data=contours,
+                                                  aesthetics,
+                                                  size=size+1, color=borderline_color, alpha=0, show.legend=FALSE, linetype="solid"), p)
 
   return(p)
 }
