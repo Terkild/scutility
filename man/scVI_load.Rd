@@ -16,7 +16,7 @@ scVI_load(
   reducedDimNames_replace = "^X_",
   RNA_layer = "scvi_normalized",
   altexp_name = "VI_RNA",
-  rownames_prefix = altexp_name
+  rownames_prefix = "VI_"
 )
 }
 \arguments{

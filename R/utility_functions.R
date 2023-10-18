@@ -1,3 +1,18 @@
+#' Helper function for calculating cutoff value
+cutoff_set <- function(values, cutoff){
+  if(is.numeric(cutoff)){
+    cutoff <- cutoff
+  } else if(substr(cutoff, 1, 1) == "q"){
+    cutoff <- quantile(values, probs=(as.numeric(gsub("q","", cutoff))/100), na.rm=TRUE)
+  } else {
+    cutoff <- NULL
+  }
+
+  if(sum(cutoff) == 0) cutoff <- NA
+
+  return(cutoff)
+}
+
 #' Calculate barcode rank
 #'
 #' @return sorted vector of colnames (barcodes)
@@ -45,7 +60,7 @@ subset_matrix <- function(data, features=c(), barcodes=c(), includeAll=TRUE, na.
     newmatrix <- Matrix::rbind2(newmatrix, newmatrix.diff)
   }
 
-  return(newmatrix[,barcodes])
+  return(newmatrix[features,barcodes])
 }
 
 #' Translate ENSG annotation to gene symbol

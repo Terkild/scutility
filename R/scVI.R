@@ -17,13 +17,21 @@
 #' @return Returns a SingleCellExperiment (SCE). If existing sce is not given the returned SCE contains scVI normalized expression, else scVI normalized expression is added as an altExp
 #' @export
 #'
-scVI_load <- function(adata, sce=NULL, obs_ignore=c("_scvi_labels", "_scvi_batch"), obs_include="all", obs_overwrite=FALSE, obs_prefix="", reducedDim_prefix="", reducedDim_include=c("X_scVI", "X_umap"), reducedDimNames_replace="^X_", RNA_layer="scvi_normalized", altexp_name="VI_RNA", rownames_prefix=altexp_name){
+scVI_load <- function(adata, sce=NULL, obs_ignore=c("_scvi_labels", "_scvi_batch"), obs_include="all", obs_overwrite=FALSE, obs_prefix="", reducedDim_prefix="", reducedDim_include=c("X_scVI", "X_umap"), reducedDimNames_replace="^X_", RNA_layer="scvi_normalized", altexp_name="VI_RNA", rownames_prefix="VI_"){
 
   # Get scVI normalized expression into an SCE
+  if(RNA_layer %in% names(adata$layers)){
+    RNA_data <- adata$layers[[RNA_layer]]
+  } else if(RNA_layer %in% names(adata$obsm)) {
+    RNA_data <- adata$obsm[[RNA_layer]]
+  } else {
+    stop(paste("Could not find",RNA_layer,"in layers nor obsm"))
+  }
+
   sce_VI <- SingleCellExperiment::SingleCellExperiment(
     list(
-      counts=t(adata$layers[[RNA_layer]]),
-      logcounts=log1p(t(adata$layers[[RNA_layer]]))
+      counts=t(RNA_data),
+      logcounts=log1p(t(RNA_data))
     )
   )
 
@@ -45,9 +53,6 @@ scVI_load <- function(adata, sce=NULL, obs_ignore=c("_scvi_labels", "_scvi_batch
   names(reducedDim_add) <- gsub(reducedDimNames_replace, "", names(reducedDim_add))
 
   names(reducedDim_add) <- paste0(reducedDim_prefix, names(reducedDim_add))
-
-
-
 
   if(length(SingleCellExperiment::reducedDimNames(sce)) == 0){
     SingleCellExperiment::reducedDims(sce) <- reducedDim_add

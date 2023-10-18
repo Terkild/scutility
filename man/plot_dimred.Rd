@@ -7,6 +7,8 @@
 plot_dimred(
   object,
   colour_by,
+  colour_list_in_metadata = "colors",
+  colours_reduce_labels = TRUE,
   features_add = c(),
   dimred = "UMAP",
   columns = NULL,
@@ -22,6 +24,7 @@ plot_dimred(
   max.cutoff = NA,
   min.cutoff = NA,
   scale_color = NULL,
+  value_convert = NULL,
   text_by = NULL,
   text_by_colour = "black",
   text_by_dimred_summary_fun = median,
@@ -44,6 +47,10 @@ plot_dimred(
 
 \item{colour_by}{Variable to use for coloring}
 
+\item{colour_list_in_metadata}{If set, function will search for a manual colouring vector in the metadata(sce)[[colour_list_in_metadata]][[colour_by]]}
+
+\item{colours_reduce_labels}{If TRUE, reduce colour legend to only show values included in the plot}
+
 \item{features_add}{Fetch additional features to data.frame given to ggplot (for specialized plotting)}
 
 \item{dimred}{Which dimensional reductions should be used?}
@@ -64,11 +71,13 @@ plot_dimred(
 
 \item{point_alpha}{Alpha level of each point}
 
-\item{max.cutoff}{Cutoff value for upper limit (can be integer or 'q' value for quantile: 'q95' sets at 95% quantile)}
+\item{max.cutoff}{Cutoff value for upper limit (can be integer or 'q' value for quantile: 'q95' sets at 95\% percentile)}
 
 \item{min.cutoff}{Cutoff value for lower limit (see max.cutoff)}
 
 \item{scale_color}{Color scale to use (viridis by default)}
+
+\item{value_convert}{Function to convert values before plotting (If NULL, no conversion)}
 
 \item{text_by}{Variable to use for labelling}
 

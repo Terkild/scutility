@@ -5,8 +5,8 @@
 #' Modified from: https://stackoverflow.com/questions/23437000/how-to-plot-a-contour-line-showing-where-95-of-values-fall-within-in-r-and-in
 #'
 #' @param data  matrix or data frame with x and y values as the first two columns
-#' @param contour_level Character string for which contour level to use (Default: "3%")
-#' @param contour_factor contour_levels only available for whole percentages. If an intermediate level or a level below "1%" is needed, the contour level value is divided by this factor.
+#' @param contour_level Character string for which contour level to use (Default: "3\%")
+#' @param contour_factor contour_levels only available for whole percentages. If an intermediate level or a level below "1\%" is needed, the contour level value is divided by this factor.
 #' @param bandwidth Bandwidth passeds on the ks::kde
 #' @param ... Passed on toe ks:kde
 #'

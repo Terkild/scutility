@@ -16,9 +16,9 @@ dimred_encircle(
 \arguments{
 \item{...}{Passed on toe ks:kde}
 
-\item{contour_level}{Character string for which contour level to use (Default: "3%")}
+\item{contour_level}{Character string for which contour level to use (Default: "3\%")}
 
-\item{contour_factor}{contour_levels only available for whole percentages. If an intermediate level or a level below "1%" is needed, the contour level value is divided by this factor.}
+\item{contour_factor}{contour_levels only available for whole percentages. If an intermediate level or a level below "1\%" is needed, the contour level value is divided by this factor.}
 
 \item{bandwidth}{Bandwidth passeds on the ks::kde}
 
