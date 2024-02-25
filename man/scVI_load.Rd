@@ -11,6 +11,7 @@ scVI_load(
   obs_include = "all",
   obs_overwrite = FALSE,
   obs_prefix = "",
+  barcodes = intersect,
   reducedDim_prefix = "",
   reducedDim_include = c("X_scVI", "X_umap"),
   reducedDimNames_replace = "^X_",
@@ -31,6 +32,8 @@ scVI_load(
 \item{obs_overwrite}{Should columns existing in the sce be overwritten?}
 
 \item{obs_prefix}{Prefix obs columns before importing}
+
+\item{barcodes}{Function to handle if different barcodes are included in either SCE or adata objects? Intersect to include only barcodes present in both objects, union to include all barcodes - will fill missing values with NA and missing expression with 0 (default: intersect)}
 
 \item{reducedDim_prefix}{Prefix reducedDim names before adding to sce}
 

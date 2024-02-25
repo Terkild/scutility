@@ -9,6 +9,7 @@ totalVI_load(
   sce = NULL,
   reducedDim_include = c("totalVI", "X_umap"),
   RNA_layer = "denoised_rna",
+  barcodes = intersect,
   protein_obsm = "denoised_protein",
   protein_fg_obsm = "protein_fg_prob",
   protein_altexp_name = "VI_ADT",
@@ -22,6 +23,8 @@ totalVI_load(
 \item{sce}{Existing sce object. If supplied, coldata is added to this object and scVI normalized expression is added as an altExp}
 
 \item{RNA_layer}{Name of adata$layers that contains the scVI normalized expression matrix}
+
+\item{barcodes}{Function to handle if different barcodes are included in either SCE or adata objects? Intersect to include only barcodes present in both objects, union to include all barcodes - will fill missing values with NA and missing expression with 0 (default: intersect)}
 
 \item{protein_obsm}{Name of adata$obsm that contains the totalVI protein denoised expression matrix}
 
