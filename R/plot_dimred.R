@@ -69,6 +69,9 @@ plot_dimred <- function(object, colour_by, colour_list_in_metadata="colors", col
 
   if(!is.null(columns)) data %<>% .[columns,]
 
+  # If a reducedDim object is used that does not have values for all rows, only use the rows with a non-NA value
+  data %<>% filter(!is.na(.[[paste0(dimred, ".1")]]))
+
   # if cutoffs are set, calculate cutoffs
   if(!is.na(max.cutoff)) max.cutoff <- cutoff_set(data[[colour_by]], max.cutoff)
   if(!is.na(min.cutoff)) min.cutoff <- cutoff_set(data[[colour_by]], min.cutoff)
@@ -171,6 +174,5 @@ plot_dimred <- function(object, colour_by, colour_list_in_metadata="colors", col
   if(!is.numeric(data[[colour_by]])){
     plot <- plot + guides(color=guide_legend(override.aes=list(size=3, alpha=1)))
   }
-
   return(plot)
 }

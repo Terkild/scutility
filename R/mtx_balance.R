@@ -157,7 +157,7 @@ mtx_balance_matrix <- function(matrix,
   mtx_up <- mtx %>%
     filter(feature %in% feature_sum$feature) %>%
     group_split(feature) %>%
-    map2_dfr(feature_sum$sample_size, ~ if(.y > 0){slice_sample(.x, n = .y, weight_by=.x$count, replace=TRUE)}) %>%
+    map2_dfr(feature_sum$sample_size, ~ if(.y > 0){slice_sample(.x, n = ceiling(.y), weight_by=.x$count, replace=TRUE)}) %>%
     select(feature, barcode) %>%
     group_by(feature, barcode) %>%
     summarize(count_add=n())
