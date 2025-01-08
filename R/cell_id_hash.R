@@ -29,10 +29,11 @@ cell_id_hash <- function(barcode_column, run_column, length = 16) {
   concatenated <- paste0(truncated_barcodes, run_column)
 
   # Generate SHA-256 hash for each concatenated string
-  hashed <- sapply(concatenated, function(x) {
-    hash <- digest(x, algo = "sha256", serialize = FALSE)
-    substr(hash, 1, length)  # Truncate hash to the specified length
-  })
+  hashed <- vapply(
+    concatenated,
+    function(x) substr(digest(x, algo = "sha256", serialize = FALSE), 1, length),
+    FUN.VALUE = character(1) # Ensures the output is a character vector
+  )
 
   return(hashed)
 }
